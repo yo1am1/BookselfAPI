@@ -3,49 +3,28 @@
     "fields": {
       "name": "Me"
     },
-    "model": "shelf.author",
+    "model": "book_shelf.author",
     "pk": 1
   },
   {
     "fields": {
-      "name": "Dante Alighieri"
+      "name": "Someone Importent"
     },
-    "model": "shelf.author",
+    "model": "book_shelf.author",
     "pk": 2
   },
   {
     "fields": {
-      "name": "Dante Alighieri Jr"
+      "name": "(<Author: Someone Importent>, True)"
     },
-    "model": "shelf.author",
+    "model": "book_shelf.author",
     "pk": 3
-  },
-  {
-    "fields": {
-      "name": "test_put"
-    },
-    "model": "shelf.author",
-    "pk": 4
   },
   {
     "fields": {
       "name": "try"
     },
-    "model": "shelf.author",
-    "pk": 5
-  },
-  {
-    "fields": {
-      "name": "You"
-    },
-    "model": "shelf.author",
-    "pk": 6
-  },
-  {
-    "fields": {
-      "name": "(<Author: Dante Alighieri>, True)"
-    },
-    "model": "shelf.author",
-    "pk": 7
+    "model": "book_shelf.author",
+    "pk": 4
   }
 ]

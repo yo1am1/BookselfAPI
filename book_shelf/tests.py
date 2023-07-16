@@ -375,10 +375,6 @@ def test_book_put_method_already_used(mocked):
         "https://boiling-dusk-49835-df388a71925c.herokuapp.com/books/1",
         data=json_body,
     )
-    response = requests.put(
-        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/books/1",
-        data=json_body,
-    )
 
     response_body = response.json()
     expected_response = {"message": "No fields were updated", "status": 200}
