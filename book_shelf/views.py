@@ -135,11 +135,31 @@ class BookView(View):
             return JsonResponse({"message": "Invalid data", "status": 400})
 
         title = request_body.get("title")
+        author = request_body.get("author")
+        publish_year = request_body.get("publish_year")
+        genre = request_body.get("genre")
 
         if title is not None:
             books = Book.objects.filter(title__icontains=title)
+        elif author is not None:
+            books = Book.objects.filter(name__icontains=author)
+        elif publish_year is not None:
+            books = Book.objects.filter(publish_year__icontains=publish_year)
+        elif genre is not None:
+            books = Book.objects.filter(genre__icontains=genre)
         else:
-            books = Book.objects.all()
+            return JsonResponse(
+                {
+                    "message": "Missing data field. Please, check your input",
+                    "fields": {
+                        "1": "title",
+                        "2": "author",
+                        "3": "publish_year",
+                        "4": "genre",
+                    },
+                    "status": 400,
+                }
+            )
 
         books_data = serialize(
             "json",
