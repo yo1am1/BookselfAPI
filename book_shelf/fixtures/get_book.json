@@ -1,0 +1,12 @@
+[
+  {
+    "fields": {
+      "author": "Me",
+      "genre": "comedy? tragedy...",
+      "publish_year": 2023,
+      "title": "Foo"
+    },
+    "model": "shelf.book",
+    "pk": 1
+  }
+]

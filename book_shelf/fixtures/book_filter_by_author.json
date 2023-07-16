@@ -1,0 +1,22 @@
+[
+    {
+        "model": "shelf.book",
+        "pk": 4,
+        "fields": {
+            "title": "Foo",
+            "publish_year": 2023,
+            "author": "(<Author: Me>, True)",
+            "genre": "Foo 2"
+        }
+    },
+    {
+        "model": "shelf.book",
+        "pk": 9,
+        "fields": {
+            "title": "Fo0 2",
+            "publish_year": 1255,
+            "author": "(<Author: Me>, True)",
+            "genre": "tragedy"
+        }
+    }
+]

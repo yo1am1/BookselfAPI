@@ -1,0 +1,9 @@
+[
+  {
+    "fields": {
+      "name": "Dante Alighieri"
+    },
+    "model": "shelf.author",
+    "pk": 2
+  }
+]
