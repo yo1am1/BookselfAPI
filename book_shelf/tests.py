@@ -31,9 +31,7 @@ def rf():
 
 def test_urls_output(mocked):
     mocked_data = mocked("urls_get_test.json")
-    body = requests.get(
-        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/api/"
-    ).json()
+    body = requests.get("https://boiling-dusk-49835-df388a71925c.herokuapp.com/").json()
 
     assert body == mocked_data
 
@@ -50,7 +48,7 @@ def test_index_view(rf):
 def test_connection_to_books_list():
     client = Client()
     response = client.get(
-        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/api/books/"
+        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/books/"
     )
 
     assert response.status_code == 200
@@ -59,7 +57,7 @@ def test_connection_to_books_list():
 def test_get_book_exists(mocked):
     mocked_data = mocked("get_book.json")
     body = requests.get(
-        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/api/books/1"
+        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/books/1"
     ).json()
 
     assert body == mocked_data
@@ -68,7 +66,7 @@ def test_get_book_exists(mocked):
 def test_get_book_not_exist(mocked):
     mocked_data = mocked("book_not_exist.json")
     body = requests.get(
-        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/api/books/0"
+        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/books/0"
     ).json()
 
     assert body == mocked_data
@@ -78,7 +76,7 @@ def test_get_book_not_exist(mocked):
 def test_book_remove_not_exist(mocked):
     mocked_data = mocked("remove_book_not_exist.json")
     body = requests.delete(
-        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/api/books/3"
+        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/books/3"
     ).json()
 
     assert body == mocked_data
@@ -88,7 +86,7 @@ def test_book_remove_not_exist(mocked):
 def test_connection_to_authors_list():
     client = Client()
     response = client.get(
-        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/api/authors/"
+        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/authors/"
     )
 
     assert response.status_code == 200
@@ -97,7 +95,7 @@ def test_connection_to_authors_list():
 def test_get_author_list(mocked):
     mocked_data = mocked("get_authors.json")
     body = requests.get(
-        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/api/authors/"
+        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/authors/"
     ).json()
 
     assert body == mocked_data
@@ -106,7 +104,7 @@ def test_get_author_list(mocked):
 def test_get_author(mocked):
     mocked_data = mocked("get_author.json")
     body = requests.get(
-        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/api/authors/2"
+        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/authors/2"
     ).json()
 
     assert body == mocked_data
@@ -123,7 +121,7 @@ def test_books_post():
     }
     json_body = json.dumps(body, indent=4)
     response = client.post(
-        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/api/books/",
+        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/books/",
         data=json_body,
         content_type="application/json",
     )
@@ -150,7 +148,7 @@ def test_book_missing_input():
     }
     json_body = json.dumps(body, indent=4)
     response = client.post(
-        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/api/books/",
+        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/books/",
         data=json_body,
         content_type="application/json",
     )
@@ -168,7 +166,7 @@ def test_book_missing_input():
 def test_authors_get_id(mocked):
     mocked_data = mocked("get_author.json")
     body = requests.get(
-        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/api/authors/2"
+        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/authors/2"
     ).json()
 
     assert body == mocked_data
@@ -179,7 +177,7 @@ def test_book_filter_author(mocked):
     body = {"author": "Me"}
     json_body = json.dumps(body, indent=4)
     response = requests.get(
-        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/api/books/filter/",
+        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/books/",
         data=json_body,
     )
     response_body = response.json()
@@ -188,21 +186,21 @@ def test_book_filter_author(mocked):
         {
             "fields": {
                 "author": "(<Author: Me>, False)",
-                "genre": "tragedy",
-                "publish_year": 20235,
-                "title": "Foo 2",
+                "genre": "Autobiography",
+                "publish_year": 2035,
+                "title": "Foo 2: The awakening",
             },
-            "model": "shelf.book",
-            "pk": 5,
+            "model": "book_shelf.book",
+            "pk": 2,
         },
         {
             "fields": {
                 "author": "Me",
-                "genre": "comedy? tragedy...",
+                "genre": "Comedy? Tragedy...",
                 "publish_year": 2023,
                 "title": "Foo",
             },
-            "model": "shelf.book",
+            "model": "book_shelf.book",
             "pk": 1,
         },
     ]
@@ -215,7 +213,7 @@ def test_book_filter_genre(mocked):
     body = {"genre": "comedy"}
     json_body = json.dumps(body, indent=4)
     response = requests.get(
-        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/api/books/filter/",
+        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/books/",
         data=json_body,
     )
     response_body = response.json()
@@ -223,24 +221,14 @@ def test_book_filter_genre(mocked):
     expected_response = [
         {
             "fields": {
-                "author": "(<Author: Dante Alighieri>, True)",
-                "genre": "comedy",
-                "publish_year": 20235,
-                "title": "Divine",
-            },
-            "model": "shelf.book",
-            "pk": 2,
-        },
-        {
-            "fields": {
                 "author": "Me",
-                "genre": "comedy? tragedy...",
+                "genre": "Comedy? Tragedy...",
                 "publish_year": 2023,
                 "title": "Foo",
             },
-            "model": "shelf.book",
+            "model": "book_shelf.book",
             "pk": 1,
-        },
+        }
     ]
 
     assert response_body == expected_response
@@ -251,7 +239,7 @@ def test_book_filter_title(mocked):
     body = {"title": "Foo"}
     json_body = json.dumps(body, indent=4)
     response = requests.get(
-        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/api/books/filter/",
+        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/books/",
         data=json_body,
     )
     response_body = response.json()
@@ -260,21 +248,21 @@ def test_book_filter_title(mocked):
         {
             "fields": {
                 "author": "(<Author: Me>, False)",
-                "genre": "tragedy",
-                "publish_year": 20235,
-                "title": "Foo 2",
+                "genre": "Autobiography",
+                "publish_year": 2035,
+                "title": "Foo 2: The awakening",
             },
-            "model": "shelf.book",
-            "pk": 5,
+            "model": "book_shelf.book",
+            "pk": 2,
         },
         {
             "fields": {
                 "author": "Me",
-                "genre": "comedy? tragedy...",
+                "genre": "Comedy? Tragedy...",
                 "publish_year": 2023,
                 "title": "Foo",
             },
-            "model": "shelf.book",
+            "model": "book_shelf.book",
             "pk": 1,
         },
     ]
@@ -287,7 +275,7 @@ def test_book_filter_publish_year(mocked):
     body = {"publish_year": 2023}
     json_body = json.dumps(body, indent=4)
     response = requests.get(
-        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/api/books/filter/",
+        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/books/",
         data=json_body,
     )
     response_body = response.json()
@@ -295,34 +283,14 @@ def test_book_filter_publish_year(mocked):
     expected_response = [
         {
             "fields": {
-                "author": "(<Author: Me>, False)",
-                "genre": "tragedy",
-                "publish_year": 20235,
-                "title": "Foo 2",
-            },
-            "model": "shelf.book",
-            "pk": 5,
-        },
-        {
-            "fields": {
-                "author": "(<Author: Dante Alighieri>, True)",
-                "genre": "comedy",
-                "publish_year": 20235,
-                "title": "Divine",
-            },
-            "model": "shelf.book",
-            "pk": 2,
-        },
-        {
-            "fields": {
                 "author": "Me",
-                "genre": "comedy? tragedy...",
+                "genre": "Comedy? Tragedy...",
                 "publish_year": 2023,
                 "title": "Foo",
             },
-            "model": "shelf.book",
+            "model": "book_shelf.book",
             "pk": 1,
-        },
+        }
     ]
 
     assert response_body == expected_response
@@ -333,7 +301,7 @@ def test_book_filter_all(mocked):
     body = {"author": "Me", "genre": "comedy", "title": "Foo", "publish_year": 2023}
     json_body = json.dumps(body, indent=4)
     response = requests.get(
-        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/api/books/filter/",
+        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/books/",
         data=json_body,
     )
     response_body = response.json()
@@ -342,21 +310,21 @@ def test_book_filter_all(mocked):
         {
             "fields": {
                 "author": "(<Author: Me>, False)",
-                "genre": "tragedy",
-                "publish_year": 20235,
-                "title": "Foo 2",
+                "genre": "Autobiography",
+                "publish_year": 2035,
+                "title": "Foo 2: The awakening",
             },
-            "model": "shelf.book",
-            "pk": 5,
+            "model": "book_shelf.book",
+            "pk": 2,
         },
         {
             "fields": {
                 "author": "Me",
-                "genre": "comedy? tragedy...",
+                "genre": "Comedy? Tragedy...",
                 "publish_year": 2023,
                 "title": "Foo",
             },
-            "model": "shelf.book",
+            "model": "book_shelf.book",
             "pk": 1,
         },
     ]
@@ -369,7 +337,7 @@ def test_book_filter_empty(mocked):
     body = {}
     json_body = json.dumps(body, indent=4)
     response = requests.get(
-        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/api/books/filter/",
+        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/books/",
         data=json_body,
     )
     response_body = response.json()
@@ -390,7 +358,7 @@ def test_book_filter_invalid(mocked):
     }
     json_body = json.dumps(body, indent=4)
     response = requests.get(
-        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/api/books/filter/",
+        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/books/",
         data=json_body,
     )
     response_body = response.json()
@@ -409,7 +377,7 @@ def test_book_filter_not_found(mocked):
     body = {"author": "bar"}
     json_body = json.dumps(body, indent=4)
     response = requests.get(
-        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/api/books/filter/",
+        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/books/",
         data=json_body,
     )
     response_body = response.json()
@@ -424,15 +392,37 @@ def test_book_put_method(mocked):
     body = {"author": "try"}
     json_body = json.dumps(body, indent=4)
     response = requests.put(
-        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/api/books/1",
+        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/books/1",
         data=json_body,
     )
     response_body = response.json()
 
     expected_response = {
-        "book": '[{    "model": "shelf.book",    "pk": 1,    "fields": {        '
+        "book": '[{    "model": "book_shelf.book",    "pk": 1,    "fields": {        '
         '"title": "Foo",        "publish_year": 2023,        "author": '
-        '"try",        "genre": "comedy? tragedy..."    }}]',
+        '"try",        "genre": "Comedy? Tragedy..."    }}]',
+        "message": "Book 'Foo' has been updated",
+        "status": 200,
+        "updated_fields": ["author"],
+    }
+
+    assert response_body == expected_response
+
+
+@pytest.mark.django_db
+def test_book_put_method_one_more(mocked):
+    body = {"author": "Me"}
+    json_body = json.dumps(body, indent=4)
+    response = requests.put(
+        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/books/1",
+        data=json_body,
+    )
+
+    response_body = response.json()
+    expected_response = {
+        "book": '[{    "model": "book_shelf.book",    "pk": 1,    "fields": {        '
+        '"title": "Foo",        "publish_year": 2023,        "author": '
+        '"Me",        "genre": "Comedy? Tragedy..."    }}]',
         "message": "Book 'Foo' has been updated",
         "status": 200,
         "updated_fields": ["author"],
@@ -446,11 +436,7 @@ def test_book_put_method_already_used(mocked):
     body = {"author": "Me"}
     json_body = json.dumps(body, indent=4)
     response = requests.put(
-        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/api/books/1",
-        data=json_body,
-    )
-    response = requests.put(
-        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/api/books/1",
+        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/books/1",
         data=json_body,
     )
 

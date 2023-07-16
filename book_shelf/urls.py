@@ -6,7 +6,6 @@ from . import views
 urlpatterns = [
     path("", views.urls, name="urls"),
     path("books/", csrf_exempt(views.BookView.as_view()), name="books_info_or_add"),
-    path("books/filter/", views.BookFilteredView.as_view(), name="books_filter"),
     path(
         "books/<int:book_id>",
         csrf_exempt(views.BookView.as_view()),
