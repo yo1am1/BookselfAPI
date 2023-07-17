@@ -1,0 +1,297 @@
+openapi: 3.0.3
+info:
+  title: Book Shelf - social experiment
+  description: |-
+    This is an API for a book shelf. You can add whatever books you like.
+    There is only one rule: do not add books that are not real.
+    It is a social experiment to see if people will voluntarily obey the rules to create a better community.
+  version: 1.0.0
+servers:
+  - url: https://boiling-dusk-49835-df388a71925c.herokuapp.com/
+  - url: http://127.0.0.1:8000/
+tags:
+  - name: books
+    description: ""
+  - name: authors
+    description:  ""
+paths:
+  /books/:
+    get:
+      tags:
+        - books
+      summary: Retrieve all books
+      description: Returns books list
+      operationId: getBooks
+      parameters:
+        - name: name
+          in: query
+          description: name book
+          required: false
+          schema:
+            type: string
+        - name: genre
+          in: query
+          description: books genre
+          required: false
+          schema:
+            type: string
+        - name: authors
+          in: query
+          description: books authors
+          required: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+        '404':
+          description: Bad request
+    post:
+      tags:
+        - books
+      summary: Add a new book and author to the store
+      description: Add a new book to the store
+      operationId: addBook
+      requestBody:
+        description: Create a new book in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Book_post_request_body'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        '400':
+          description: "Bad request"
+  /books/{bookId}:
+    get:
+      tags:
+        - books
+      summary: Find book by ID
+      description: Returns a single book
+      operationId: getBookById
+      parameters:
+        - name: bookId
+          in: path
+          description: ID of book to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - books
+      summary: Update book by ID
+      description: Update book in the store
+      operationId: updateBook
+      parameters:
+        - name: bookId
+          in: path
+          description: ID of book to put
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Update book in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Book_put_request_body'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book_after_update'
+        '404':
+          description: Not found
+    delete:
+      tags:
+        - books
+      summary: Delete book by ID
+      description: Delete book from the store
+      operationId: deleteBook
+      parameters:
+        - name: bookId
+          in: path
+          description: ID of book to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book_after_delete'
+        '404':
+          description: Not found
+  /authors/:
+    get:
+      tags:
+        - authors
+      summary: Show all authors in the store with optional filters
+      description: Returns authors list
+      parameters:
+        - name: name
+          in: query
+          description: name
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Author'
+        '400':
+          description: Bad request
+        '404':
+          description: Not found
+  /authors/{authorId}:
+    get:
+      tags:
+        - authors
+      summary: Find author by ID
+      description: Returns a single author
+      parameters:
+        - name: authorId
+          in: path
+          description: ID of author to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author'
+        '404':
+          description: Not Found
+components:
+  schemas:
+    Book:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 3
+        title:
+          type: string
+          description: The title of the book
+          example: The Lord of the Rings
+        publish_year:
+          type: integer
+          description: The year the book was published
+          example: 1954
+        author:
+          type: string
+          description: The author of the book
+          example: J. R. R. Tolkien
+        genre:
+          type: string
+          description: The genre of the book
+          example: Fantasy
+
+    Book_post_request_body:
+      type: object
+      properties:
+        title:
+          type: string
+          example: The Adventures of Sherlock Holmes
+        author:
+          type: string
+          example: Arthur Conan Doyle
+        genre:
+          type: string
+          example: Novel
+        publish_year:
+          type: string
+          example: 1892
+    Book_put_request_body:
+      type: object
+      properties:
+        title:
+          type: string
+          example: Update name
+        author:
+          type: string
+          example: Arthur Conan Doyle
+        genre:
+          type: string
+          example: Update genre
+        publish_year:
+          type: string
+          example: 1892
+    Book_after_update:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        name:
+          type: string
+          example: Update name
+        author:
+          type: string
+          example: Artur Conan Doyle
+        genre:
+          type: string
+          example: Update genre
+        publication_date:
+          type: string
+          example: 1892
+    Book_after_delete:
+      type: object
+      properties:
+        book:
+          type: string
+          example: The Adventures of Sherlock Holmes has been deleted
+        status:
+          type: string
+          example: 200
+    Author:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        name:
+          type: string
+          example: Artur Conan Doyle
