@@ -57,11 +57,11 @@ class BookView(View):
             books = Book.objects.filter(filters)
 
             if not books:
-                return JsonResponse(
+                return HttpResponse(
                     {
                         "message": "No books found",
                         "status": 404,
-                    }
+                    }, status=404
                 )
 
             books_data = serialize(
