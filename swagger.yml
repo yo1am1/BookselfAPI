@@ -1,19 +1,22 @@
 openapi: 3.0.3
 info:
   title: Book Shelf - social experiment
-  description: |-
+  description: >-
     This is an API for a book shelf. You can add whatever books you like.
+
     There is only one rule: do not add books that are not real.
-    It is a social experiment to see if people will voluntarily obey the rules to create a better community.
+
+    It is a social experiment to see if people will voluntarily obey the rules
+    to create a better community.
   version: 1.0.0
 servers:
   - url: https://boiling-dusk-49835-df388a71925c.herokuapp.com/
   - url: http://127.0.0.1:8000/
 tags:
   - name: books
-    description: ""
+    description: ''
   - name: authors
-    description:  ""
+    description: ''
 paths:
   /books/:
     get:
@@ -25,7 +28,7 @@ paths:
       parameters:
         - name: name
           in: query
-          description: name book
+          description: books name
           required: false
           schema:
             type: string
@@ -35,13 +38,18 @@ paths:
           required: false
           schema:
             type: string
-        - name: authors
+        - name: author
           in: query
-          description: books authors
+          description: books author
           required: false
           schema:
-            type: integer
-            format: int64
+            type: string
+        - name: publish_year
+          in: query
+          description: publish year of the books
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: Successful operation
@@ -68,13 +76,17 @@ paths:
         required: true
       responses:
         '200':
+          description: Book already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book_exists'
+        '201':
           description: Successful operation
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Book'
-        '400':
-          description: "Bad request"
   /books/{bookId}:
     get:
       tags:
@@ -158,6 +170,7 @@ paths:
         - authors
       summary: Show all authors in the store with optional filters
       description: Returns authors list
+      operationId: getAuthors
       parameters:
         - name: name
           in: query
@@ -176,8 +189,6 @@ paths:
                   $ref: '#/components/schemas/Author'
         '400':
           description: Bad request
-        '404':
-          description: Not found
   /authors/{authorId}:
     get:
       tags:
@@ -226,7 +237,6 @@ components:
           type: string
           description: The genre of the book
           example: Fantasy
-
     Book_post_request_body:
       type: object
       properties:
@@ -242,6 +252,15 @@ components:
         publish_year:
           type: string
           example: 1892
+    Book_exists:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Book already exists
+        status:
+          type: integer
+          example: 400
     Book_put_request_body:
       type: object
       properties:

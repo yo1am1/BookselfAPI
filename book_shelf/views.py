@@ -1,6 +1,7 @@
 import json
 
 from django.core.serializers import serialize
+from django.db.models import Q
 from django.views import View
 
 from .models import Book, Author
@@ -37,66 +38,36 @@ class BookView(View):
                 return HttpResponse(book_data, content_type="application/json")
             except Book.DoesNotExist:
                 return JsonResponse({"Error": "Book does not exist", "status": 404})
-        elif request.body == b"":
-            books = Book.objects.all()
+        else:
+            title = request.GET.get("title")
+            author = request.GET.get("author")
+            publish_year = request.GET.get("publish_year")
+            genre = request.GET.get("genre")
+
+            filters = Q()
+            if title:
+                filters &= Q(title__icontains=title)
+            if author:
+                filters &= Q(author__icontains=author)
+            if publish_year:
+                filters &= Q(publish_year__icontains=publish_year)
+            if genre:
+                filters &= Q(genre__icontains=genre)
+
+            books = Book.objects.filter(filters)
+
+            if not books:
+                return JsonResponse(
+                    {
+                        "message": "No books found",
+                        "status": 404,
+                    }
+                )
+
             books_data = serialize(
-                "json",
-                books,
-                indent=4,
+                "json", books, fields=("title", "publish_year", "author", "genre"), indent=4
             ).replace("\n", " ")
             return HttpResponse(books_data, content_type="application/json")
-        try:
-            request_body = json.loads(request.body)
-        except ValueError:
-            return JsonResponse({"message": "Invalid data", "status": 400})
-
-        title = request_body.get("title")
-        author = request_body.get("author")
-        publish_year = request_body.get("publish_year")
-        genre = request_body.get("genre")
-
-        if title is None and author is None and publish_year is None and genre is None:
-            return JsonResponse(
-                {
-                    "message": "Missing data field. Please, check your input",
-                    "fields": {1: "title", 2: "author", 3: "publish_year", 4: "genre"},
-                    "status": 400,
-                }
-            )
-        if title is not None:
-            books = Book.objects.filter(title__icontains=title)
-        elif author is not None:
-            books = Book.objects.filter(author__icontains=author)
-        elif publish_year is not None:
-            books = Book.objects.filter(publish_year__icontains=publish_year)
-        elif genre is not None:
-            books = Book.objects.filter(genre__icontains=genre)
-        else:
-            return JsonResponse(
-                {
-                    "message": "Missing data field. Please, check your input",
-                    "fields": {
-                        "1": "title",
-                        "2": "author",
-                        "3": "publish_year",
-                        "4": "genre",
-                    },
-                    "status": 400,
-                }
-            )
-
-        if not books:
-            return JsonResponse(
-                {
-                    "message": "No books found",
-                    "status": 404,
-                }
-            )
-
-        books_data = serialize(
-            "json", books, fields=("title", "publish_year", "author", "genre"), indent=4
-        ).replace("\n", " ")
-        return HttpResponse(books_data, content_type="application/json")
 
     def post(self, request):
         try:
