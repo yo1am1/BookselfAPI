@@ -294,16 +294,6 @@ def test_book_filter_all(mocked):
         },
         {
             "fields": {
-                "author": "(<Author: Arthur Conan Doyle>, False)",
-                "genre": "Novel",
-                "publish_year": 1892,
-                "title": "The Adventures of Sherlock Holmes",
-            },
-            "model": "book_shelf.book",
-            "pk": 7,
-        },
-        {
-            "fields": {
                 "author": "Me",
                 "genre": "Comedy? Tragedy...",
                 "publish_year": 2023,
@@ -311,6 +301,16 @@ def test_book_filter_all(mocked):
             },
             "model": "book_shelf.book",
             "pk": 1,
+        },
+        {
+            "fields": {
+                "author": "(<Author: Arthur Conan Doyle>, False)",
+                "genre": "Novel",
+                "publish_year": 1892,
+                "title": "The Adventures of Sherlock Holmes",
+            },
+            "model": "book_shelf.book",
+            "pk": 7,
         },
     ]
 
