@@ -14,9 +14,9 @@ servers:
   - url: http://127.0.0.1:8000/
 tags:
   - name: books
-    description: ''
+    description: 'Books interactions'
   - name: authors
-    description: ''
+    description: 'Interactions with authors'
 paths:
   /books/:
     get:
