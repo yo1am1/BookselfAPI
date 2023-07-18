@@ -310,7 +310,7 @@ def test_book_filter_all(mocked):
                 "title": "The Adventures of Sherlock Holmes",
             },
             "model": "book_shelf.book",
-            "pk": 7,
+            "pk": 8,
         },
     ]
 

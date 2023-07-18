@@ -401,4 +401,3 @@ components:
         status:
           type: integer
           example: 404
-          
