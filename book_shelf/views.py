@@ -104,10 +104,7 @@ class BookView(View):
         author = Author.objects.get_or_create(name=author)
 
         book = Book.objects.create(
-            title=title,
-            publish_year=publish_year,
-            author=author,
-            genre=genre
+            title=title, publish_year=publish_year, author=author, genre=genre
         )
 
         request_body["id"] = book.id

@@ -1,37 +1,17 @@
-[
-  {
-    "fields": {
-      "name": "Me"
-    },
-    "model": "book_shelf.author",
-    "pk": 1
-  },
-  {
-    "fields": {
-      "name": "Someone Importent"
-    },
-    "model": "book_shelf.author",
-    "pk": 2
-  },
-  {
-    "fields": {
-      "name": "(<Author: Someone Importent>, True)"
-    },
-    "model": "book_shelf.author",
-    "pk": 3
-  },
-  {
-    "fields": {
-      "name": "try"
-    },
-    "model": "book_shelf.author",
-    "pk": 4
-  },
-  {
-    "fields": {
-      "name": "Arthur Conan Doyle"
-    },
-    "model": "book_shelf.author",
-    "pk": 5
-  }
-]
+[{"fields": {"name": "Me"}, "model": "book_shelf.author", "pk": 1},
+ {"fields": {"name": "Someone Importent"},
+  "model": "book_shelf.author",
+  "pk": 2},
+ {"fields": {"name": "(<Author: Someone Importent>, True)"},
+  "model": "book_shelf.author",
+  "pk": 3},
+ {"fields": {"name": "try"}, "model": "book_shelf.author", "pk": 4},
+ {"fields": {"name": "Arthur Conan Doyle"},
+  "model": "book_shelf.author",
+  "pk": 5},
+ {"fields": {"name": "F. Scott Fitzgerald"},
+  "model": "book_shelf.author",
+  "pk": 6},
+ {"fields": {"name": "F. Scott Fitzgerald 2"},
+  "model": "book_shelf.author",
+  "pk": 7}]
