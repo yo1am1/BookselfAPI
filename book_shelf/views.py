@@ -107,7 +107,7 @@ class BookView(View):
             title=title,
             publish_year=publish_year,
             author=author,
-            genre=genre,
+            genre=genre
         )
 
         request_body["id"] = book.id
@@ -177,8 +177,8 @@ class BookView(View):
         try:
             book = Book.objects.get(id=book_id)
             book.delete()
-            context = {"book": f"'{book}' has been deleted", "status": 204}
-            return JsonResponse(context, safe=False, status=204)
+            context = {"book": f"'{book}' has been deleted", "status": 200}
+            return JsonResponse(context, safe=False, status=200)
         except Book.DoesNotExist:
             return JsonResponse(
                 {"Error": "Book does not exist", "status": 400}, status=400
