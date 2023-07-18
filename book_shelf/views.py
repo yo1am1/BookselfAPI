@@ -35,16 +35,21 @@ class BookView(View):
                     [book],
                     indent=4,
                 )
-                return HttpResponse(book_data, content_type="application/json")
+                return HttpResponse(book_data, content_type="application/json", status=200)
             except Book.DoesNotExist:
                 return JsonResponse(
                     {"Error": "Book does not exist", "status": 404}, status=404
                 )
-        else:
-            title = request.GET.get("title")
-            author = request.GET.get("author")
-            publish_year = request.GET.get("publish_year")
-            genre = request.GET.get("genre")
+        elif request.content_type == 'application/json':
+            try:
+                request_body = json.loads(request.body)
+            except ValueError:
+                return JsonResponse({"message": "Invalid data", "status": 400}, status=400)
+
+            title = request_body.get("title")
+            author = request_body.get("author")
+            publish_year = request_body.get("publish_year")
+            genre = request_body.get("genre")
 
             filters = Q()
             if title:
@@ -64,7 +69,26 @@ class BookView(View):
                         "message": "No books found",
                         "status": 404,
                     },
-                    status=404,
+                    status=404
+                )
+
+            books_data = serialize(
+                "json",
+                books,
+                fields=("title", "publish_year", "author", "genre"),
+                indent=4,
+            ).replace("\n", " ")
+            return HttpResponse(books_data, content_type="application/json")
+        else:
+            books = Book.objects.all()
+
+            if not books:
+                return JsonResponse(
+                    {
+                        "message": "No books found",
+                        "status": 404,
+                    },
+                    status=404
                 )
 
             books_data = serialize(
