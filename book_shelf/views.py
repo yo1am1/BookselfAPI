@@ -35,7 +35,9 @@ class BookView(View):
                     [book],
                     indent=4,
                 )
-                return HttpResponse(book_data, content_type="application/json", status=200)
+                return HttpResponse(
+                    book_data, content_type="application/json", status=200
+                )
             except Book.DoesNotExist:
                 return JsonResponse(
                     {"Error": "Book does not exist", "status": 404}, status=404
@@ -64,7 +66,7 @@ class BookView(View):
                         "message": "No books found",
                         "status": 404,
                     },
-                    status=404
+                    status=404,
                 )
 
             books_data = serialize(

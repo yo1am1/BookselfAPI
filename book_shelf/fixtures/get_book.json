@@ -4,7 +4,7 @@
       "author": "Me",
       "genre": "Comedy? Tragedy...",
       "publish_year": 2023,
-      "title": "Foo"
+      "title": "Update name"
     },
     "model": "book_shelf.book",
     "pk": 1

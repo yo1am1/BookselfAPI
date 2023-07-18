@@ -26,5 +26,12 @@
     },
     "model": "book_shelf.author",
     "pk": 4
+  },
+  {
+    "fields": {
+      "name": "Arthur Conan Doyle"
+    },
+    "model": "book_shelf.author",
+    "pk": 5
   }
 ]

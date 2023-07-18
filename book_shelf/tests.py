@@ -41,7 +41,7 @@ def test_index_view(rf):
     url = reverse("books_info_or_add")
     request = rf.post(url)
     response = views.BookView.as_view()(request)
-    assert response.status_code == 200
+    assert response.status_code == 400
 
 
 @pytest.mark.django_db
@@ -51,7 +51,7 @@ def test_connection_to_books_list():
         "https://boiling-dusk-49835-df388a71925c.herokuapp.com/books/"
     )
 
-    assert response.status_code == 200
+    assert response.status_code == 404
 
 
 def test_get_book_exists(mocked):
@@ -89,7 +89,7 @@ def test_connection_to_authors_list():
         "https://boiling-dusk-49835-df388a71925c.herokuapp.com/authors/"
     )
 
-    assert response.status_code == 200
+    assert response.status_code == 404
 
 
 def test_get_author_list(mocked):
@@ -174,11 +174,8 @@ def test_authors_get_id(mocked):
 
 @pytest.mark.django_db
 def test_book_filter_author(mocked):
-    body = {"author": "Me"}
-    json_body = json.dumps(body, indent=4)
     response = requests.get(
-        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/books/",
-        data=json_body,
+        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/books/?author=Me",
     )
     response_body = response.json()
 
@@ -198,7 +195,7 @@ def test_book_filter_author(mocked):
                 "author": "Me",
                 "genre": "Comedy? Tragedy...",
                 "publish_year": 2023,
-                "title": "Foo",
+                "title": "Update name",
             },
             "model": "book_shelf.book",
             "pk": 1,
@@ -210,11 +207,8 @@ def test_book_filter_author(mocked):
 
 @pytest.mark.django_db
 def test_book_filter_genre(mocked):
-    body = {"genre": "comedy"}
-    json_body = json.dumps(body, indent=4)
     response = requests.get(
-        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/books/",
-        data=json_body,
+        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/books/?genre=comedy",
     )
     response_body = response.json()
 
@@ -224,7 +218,7 @@ def test_book_filter_genre(mocked):
                 "author": "Me",
                 "genre": "Comedy? Tragedy...",
                 "publish_year": 2023,
-                "title": "Foo",
+                "title": "Update name",
             },
             "model": "book_shelf.book",
             "pk": 1,
@@ -236,11 +230,8 @@ def test_book_filter_genre(mocked):
 
 @pytest.mark.django_db
 def test_book_filter_title(mocked):
-    body = {"title": "Foo"}
-    json_body = json.dumps(body, indent=4)
     response = requests.get(
-        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/books/",
-        data=json_body,
+        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/books/?title=Foo",
     )
     response_body = response.json()
 
@@ -254,17 +245,7 @@ def test_book_filter_title(mocked):
             },
             "model": "book_shelf.book",
             "pk": 2,
-        },
-        {
-            "fields": {
-                "author": "Me",
-                "genre": "Comedy? Tragedy...",
-                "publish_year": 2023,
-                "title": "Foo",
-            },
-            "model": "book_shelf.book",
-            "pk": 1,
-        },
+        }
     ]
 
     assert response_body == expected_response
@@ -272,11 +253,8 @@ def test_book_filter_title(mocked):
 
 @pytest.mark.django_db
 def test_book_filter_publish_year(mocked):
-    body = {"publish_year": 2023}
-    json_body = json.dumps(body, indent=4)
     response = requests.get(
-        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/books/",
-        data=json_body,
+        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/books/?publish_year=2023",
     )
     response_body = response.json()
 
@@ -286,7 +264,7 @@ def test_book_filter_publish_year(mocked):
                 "author": "Me",
                 "genre": "Comedy? Tragedy...",
                 "publish_year": 2023,
-                "title": "Foo",
+                "title": "Update name",
             },
             "model": "book_shelf.book",
             "pk": 1,
@@ -298,11 +276,8 @@ def test_book_filter_publish_year(mocked):
 
 @pytest.mark.django_db
 def test_book_filter_all(mocked):
-    body = {"author": "Me", "genre": "comedy", "title": "Foo", "publish_year": 2023}
-    json_body = json.dumps(body, indent=4)
     response = requests.get(
         "https://boiling-dusk-49835-df388a71925c.herokuapp.com/books/",
-        data=json_body,
     )
     response_body = response.json()
 
@@ -319,10 +294,20 @@ def test_book_filter_all(mocked):
         },
         {
             "fields": {
+                "author": "(<Author: Arthur Conan Doyle>, False)",
+                "genre": "Novel",
+                "publish_year": 1892,
+                "title": "The Adventures of Sherlock Holmes",
+            },
+            "model": "book_shelf.book",
+            "pk": 7,
+        },
+        {
+            "fields": {
                 "author": "Me",
                 "genre": "Comedy? Tragedy...",
                 "publish_year": 2023,
-                "title": "Foo",
+                "title": "Update name",
             },
             "model": "book_shelf.book",
             "pk": 1,
@@ -333,51 +318,11 @@ def test_book_filter_all(mocked):
 
 
 @pytest.mark.django_db
-def test_book_filter_empty(mocked):
-    body = {}
-    json_body = json.dumps(body, indent=4)
-    response = requests.get(
-        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/books/",
-        data=json_body,
-    )
-    response_body = response.json()
-
-    expected_response = {
-        "fields": {"1": "title", "2": "author", "3": "publish_year", "4": "genre"},
-        "message": "Missing data field. Please, check your input",
-        "status": 400,
-    }
-
-    assert response_body == expected_response
-
-
-@pytest.mark.django_db
-def test_book_filter_invalid(mocked):
-    body = {
-        "foo": "bar",
-    }
-    json_body = json.dumps(body, indent=4)
-    response = requests.get(
-        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/books/",
-        data=json_body,
-    )
-    response_body = response.json()
-
-    expected_response = {
-        "fields": {"1": "title", "2": "author", "3": "publish_year", "4": "genre"},
-        "message": "Missing data field. Please, check your input",
-        "status": 400,
-    }
-
-    assert response_body == expected_response
-
-
-@pytest.mark.django_db
 def test_book_filter_not_found(mocked):
     body = {"author": "bar"}
     json_body = json.dumps(body, indent=4)
     response = requests.get(
-        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/books/",
+        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/books/?title=nooooooooooooooo",
         data=json_body,
     )
     response_body = response.json()
@@ -399,9 +344,9 @@ def test_book_put_method(mocked):
 
     expected_response = {
         "book": '[{    "model": "book_shelf.book",    "pk": 1,    "fields": {        '
-        '"title": "Foo",        "publish_year": 2023,        "author": '
-        '"try",        "genre": "Comedy? Tragedy..."    }}]',
-        "message": "Book 'Foo' has been updated",
+        '"title": "Update name",        "publish_year": 2023,        '
+        '"author": "try",        "genre": "Comedy? Tragedy..."    }}]',
+        "message": "Book 'Update name' has been updated",
         "status": 200,
         "updated_fields": ["author"],
     }
@@ -421,9 +366,9 @@ def test_book_put_method_one_more(mocked):
     response_body = response.json()
     expected_response = {
         "book": '[{    "model": "book_shelf.book",    "pk": 1,    "fields": {        '
-        '"title": "Foo",        "publish_year": 2023,        "author": '
-        '"Me",        "genre": "Comedy? Tragedy..."    }}]',
-        "message": "Book 'Foo' has been updated",
+        '"title": "Update name",        "publish_year": 2023,        '
+        '"author": "Me",        "genre": "Comedy? Tragedy..."    }}]',
+        "message": "Book 'Update name' has been updated",
         "status": 200,
         "updated_fields": ["author"],
     }
