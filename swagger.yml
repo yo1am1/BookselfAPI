@@ -67,7 +67,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Book_does_not_found'
-
     post:
       tags:
         - books
@@ -82,19 +81,18 @@ paths:
               $ref: '#/components/schemas/Book_post_request_body'
         required: true
       responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book_created'
         '400':
           description: Book already exists
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Book_exists'
-        '201':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Book'
-
   /books/{bookId}:
     get:
       tags:
@@ -170,8 +168,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Book_after_delete'
-        '404':
-          description: Not found
+        '400':
+          description: Does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book_does_not_exist_delete'
   /authors/:
     get:
       tags:
@@ -195,8 +197,14 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Author'
-        '400':
+        '404':
           description: Bad request
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Author_does_not_exist'
   /authors/{authorId}:
     get:
       tags:
@@ -254,6 +262,21 @@ components:
               type: string
               description: The genre of the book
               example: Fantasy
+    Book_created:
+      type: object
+      properties:
+        title:
+          type: string
+          example: The Lord of the Rings
+        publish_year:
+          type: integer
+          example: 1954
+        author:
+          type: string
+          example: J. R. R. Tolkien
+        genre:
+          type: string
+          example: Fantasy
     Book_post_request_body:
       type: object
       properties:
@@ -305,22 +328,23 @@ components:
     Book_after_update:
       type: object
       properties:
-        id:
+        message:
+          type: string
+          example: Book 'Update name' has been updated
+        updated_fields:
+          type: array
+          items:
+            type: string
+            example: title
+        book:
+          type: string
+          example: >-
+            [{    "model": "book_shelf.book",    "pk": 1,    "fields": {       
+            "title": "Update name",        "publish_year": 2023,       
+            "author": "Me",        "genre": "Comedy? Tragedy..."    }}]
+        status:
           type: integer
-          format: int64
-          example: 10
-        name:
-          type: string
-          example: Update name
-        author:
-          type: string
-          example: Artur Conan Doyle
-        genre:
-          type: string
-          example: Update genre
-        publication_date:
-          type: string
-          example: 1892
+          example: 200
     Book_after_delete:
       type: object
       properties:
@@ -330,6 +354,15 @@ components:
         status:
           type: string
           example: 200
+    Book_does_not_exist_delete:
+      type: object
+      properties:
+        Error:
+          type: string
+          example: Book does not exist
+        status:
+          type: integer
+          example: 400
     Author:
       type: object
       properties:
@@ -352,3 +385,6 @@ components:
         Error:
           type: string
           example: Author does not exist
+        status:
+          type: integer
+          example: 404
