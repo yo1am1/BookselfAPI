@@ -65,7 +65,10 @@ class BookView(View):
                 )
 
             books_data = serialize(
-                "json", books, fields=("title", "publish_year", "author", "genre"), indent=4
+                "json",
+                books,
+                fields=("title", "publish_year", "author", "genre"),
+                indent=4,
             ).replace("\n", " ")
             return HttpResponse(books_data, content_type="application/json")
 
@@ -169,67 +172,6 @@ class BookView(View):
             return JsonResponse({"Error": "Book does not exist", "status": 400})
 
 
-class BookFilteredView(View):
-    def get(self, request):
-        try:
-            request_body = json.loads(request.body)
-        except ValueError:
-            return JsonResponse(
-                {
-                    "message": "Invalid data or missing '/' at the end! -----> /api/books/filter/ <-----",
-                    "status": 400,
-                },
-                safe=False,
-            )
-        title = request_body.get("title")
-        author = request_body.get("author")
-        publish_year = request_body.get("publish_year")
-        genre = request_body.get("genre")
-
-        if title is None and author is None and publish_year is None and genre is None:
-            return JsonResponse(
-                {
-                    "message": "Missing data field. Please, check your input",
-                    "fields": {1: "title", 2: "author", 3: "publish_year", 4: "genre"},
-                    "status": 400,
-                }
-            )
-        if title is not None:
-            books = Book.objects.filter(title__icontains=title)
-        elif author is not None:
-            books = Book.objects.filter(author__icontains=author)
-        elif publish_year is not None:
-            books = Book.objects.filter(publish_year__icontains=publish_year)
-        elif genre is not None:
-            books = Book.objects.filter(genre__icontains=genre)
-        else:
-            return JsonResponse(
-                {
-                    "message": "Missing data field. Please, check your input",
-                    "fields": {
-                        "1": "title",
-                        "2": "author",
-                        "3": "publish_year",
-                        "4": "genre",
-                    },
-                    "status": 400,
-                }
-            )
-
-        if not books:
-            return JsonResponse(
-                {
-                    "message": "No books found",
-                    "status": 404,
-                }
-            )
-
-        books_data = serialize(
-            "json", books, fields=("title", "publish_year", "author", "genre"), indent=4
-        ).replace("\n", " ")
-        return HttpResponse(books_data, content_type="application/json")
-
-
 class AuthorsView(View):
     def get(self, request, author_id=None):
         if author_id is not None:
@@ -239,22 +181,22 @@ class AuthorsView(View):
                 return HttpResponse(author_data, content_type="application/json")
             except Author.DoesNotExist:
                 return JsonResponse({"Error": "Author does not exist"}, status=404)
-        elif request.body == b"":
-            authors = Author.objects.all()
+        else:
+            name = request.GET.get("name")
+
+            filters = Q()
+            if name:
+                filters &= Q(name__icontains=name)
+
+            authors = Author.objects.filter(filters)
+
+            if not authors:
+                return JsonResponse(
+                    {
+                        "message": "No authors found",
+                        "status": 404,
+                    }
+                )
+
             authors_data = serialize("json", authors, indent=4).replace("\n", " ")
             return HttpResponse(authors_data, content_type="application/json")
-
-        try:
-            request_body = json.loads(request.body)
-        except ValueError:
-            return JsonResponse({"message": "Invalid data", "status": 400})
-
-        name = request_body.get("name")
-
-        if name is not None:
-            authors = Author.objects.filter(name__icontains=name)
-        else:
-            authors = Author.objects.all()
-
-        authors_data = serialize("json", authors, indent=4).replace("\n", " ")
-        return HttpResponse(authors_data, content_type="application/json")
