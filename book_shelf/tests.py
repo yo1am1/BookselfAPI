@@ -294,16 +294,6 @@ def test_book_filter_all(mocked):
         },
         {
             "fields": {
-                "author": "Me",
-                "genre": "Comedy? Tragedy...",
-                "publish_year": 2023,
-                "title": "Update name",
-            },
-            "model": "book_shelf.book",
-            "pk": 1,
-        },
-        {
-            "fields": {
                 "author": "(<Author: Arthur Conan Doyle>, False)",
                 "genre": "Novel",
                 "publish_year": 1892,
@@ -311,6 +301,16 @@ def test_book_filter_all(mocked):
             },
             "model": "book_shelf.book",
             "pk": 8,
+        },
+        {
+            "fields": {
+                "author": "Me",
+                "genre": "Comedy? Tragedy...",
+                "publish_year": 2023,
+                "title": "Update name",
+            },
+            "model": "book_shelf.book",
+            "pk": 1,
         },
     ]
 
