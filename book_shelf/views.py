@@ -57,7 +57,7 @@ class BookView(View):
             books = Book.objects.filter(filters)
 
             if not books:
-                return JsonResponse(
+                raise Book.DoesNotExist and JsonResponse(
                     {
                         "message": "No books found",
                         "status": 404,
