@@ -1,0 +1,390 @@
+openapi: 3.0.3
+info:
+  title: Book Shelf - social experiment
+  description: >-
+    This is an API for a book shelf. You can add whatever books you like.
+
+    There is only one rule: do not add books that are not real.
+
+    It is a social experiment to see if people will voluntarily obey the rules
+    to create a better community.
+  version: 1.0.0
+servers:
+  - url: https://boiling-dusk-49835-df388a71925c.herokuapp.com/
+  - url: http://127.0.0.1:8000/
+tags:
+  - name: books
+    description: ''
+  - name: authors
+    description: ''
+paths:
+  /books/:
+    get:
+      tags:
+        - books
+      summary: Retrieve all books
+      description: Returns books list
+      operationId: getBooks
+      parameters:
+        - name: title
+          in: query
+          description: books name
+          required: false
+          schema:
+            type: string
+        - name: genre
+          in: query
+          description: books genre
+          required: false
+          schema:
+            type: string
+        - name: author
+          in: query
+          description: books author
+          required: false
+          schema:
+            type: string
+        - name: publish_year
+          in: query
+          description: publish year of the books
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book_does_not_found'
+    post:
+      tags:
+        - books
+      summary: Add a new book and author to the store
+      description: Add a new book to the store
+      operationId: addBook
+      requestBody:
+        description: Create a new book in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Book_post_request_body'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book_created'
+        '400':
+          description: Book already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book_exists'
+  /books/{bookId}:
+    get:
+      tags:
+        - books
+      summary: Find book by ID
+      description: Returns a single book
+      operationId: getBookById
+      parameters:
+        - name: bookId
+          in: path
+          description: ID of book to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - books
+      summary: Update book by ID
+      description: Update book in the store
+      operationId: updateBook
+      parameters:
+        - name: bookId
+          in: path
+          description: ID of book to put
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Update book in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Book_put_request_body'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book_after_update'
+        '404':
+          description: Not found
+    delete:
+      tags:
+        - books
+      summary: Delete book by ID
+      description: Delete book from the store
+      operationId: deleteBook
+      parameters:
+        - name: bookId
+          in: path
+          description: ID of book to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book_after_delete'
+        '400':
+          description: Does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book_does_not_exist_delete'
+  /authors/:
+    get:
+      tags:
+        - authors
+      summary: Show all authors in the store with optional filters
+      description: Returns authors list
+      operationId: getAuthors
+      parameters:
+        - name: name
+          in: query
+          description: name
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Author'
+        '404':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Author_does_not_exist'
+  /authors/{authorId}:
+    get:
+      tags:
+        - authors
+      summary: Find author by ID
+      description: Returns a single author
+      parameters:
+        - name: authorId
+          in: path
+          description: ID of author to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author_does_not_exist'
+components:
+  schemas:
+    Book:
+      type: object
+      properties:
+        model:
+          type: string
+          example: book_shelf.book
+        pk:
+          type: integer
+          format: int64
+          example: 3
+        fields:
+          type: object
+          properties:
+            title:
+              type: string
+              example: The Lord of the Rings
+            publish_year:
+              type: integer
+              description: The year the book was published
+              example: 1954
+            author:
+              type: string
+              description: The author of the book
+              example: J. R. R. Tolkien
+            genre:
+              type: string
+              description: The genre of the book
+              example: Fantasy
+    Book_created:
+      type: object
+      properties:
+        title:
+          type: string
+          example: The Lord of the Rings
+        publish_year:
+          type: integer
+          example: 1954
+        author:
+          type: string
+          example: J. R. R. Tolkien
+        genre:
+          type: string
+          example: Fantasy
+    Book_post_request_body:
+      type: object
+      properties:
+        title:
+          type: string
+          example: The Adventures of Sherlock Holmes
+        author:
+          type: string
+          example: Arthur Conan Doyle
+        genre:
+          type: string
+          example: Novel
+        publish_year:
+          type: string
+          example: 1892
+    Book_exists:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Book already exists
+        status:
+          type: integer
+          example: 400
+    Book_does_not_found:
+      type: object
+      properties:
+        message:
+          type: string
+          example: No books found
+        status:
+          type: integer
+          example: 404
+    Book_put_request_body:
+      type: object
+      properties:
+        title:
+          type: string
+          example: Update name
+        author:
+          type: string
+          example: Arthur Conan Doyle
+        genre:
+          type: string
+          example: Update genre
+        publish_year:
+          type: string
+          example: 1892
+    Book_after_update:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Book 'Update name' has been updated
+        updated_fields:
+          type: array
+          items:
+            type: string
+            example: title
+        book:
+          type: string
+          example: >-
+            [{    "model": "book_shelf.book",    "pk": 1,    "fields": {       
+            "title": "Update name",        "publish_year": 2023,       
+            "author": "Me",        "genre": "Comedy? Tragedy..."    }}]
+        status:
+          type: integer
+          example: 200
+    Book_after_delete:
+      type: object
+      properties:
+        book:
+          type: string
+          example: The Adventures of Sherlock Holmes has been deleted
+        status:
+          type: string
+          example: 200
+    Book_does_not_exist_delete:
+      type: object
+      properties:
+        Error:
+          type: string
+          example: Book does not exist
+        status:
+          type: integer
+          example: 400
+    Author:
+      type: object
+      properties:
+        model:
+          type: string
+          example: book_shelf.author
+        pk:
+          type: integer
+          format: int64
+          example: 10
+        fields:
+          type: object
+          properties:
+            name:
+              type: string
+              example: Artur Conan Doyle
+    Author_does_not_exist:
+      type: object
+      properties:
+        Error:
+          type: string
+          example: Author does not exist
+        status:
+          type: integer
+          example: 404
