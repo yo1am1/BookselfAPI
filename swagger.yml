@@ -14,9 +14,9 @@ servers:
   - url: http://127.0.0.1:8000/
 tags:
   - name: books
-    description: ''
+    description: 'Books interactions'
   - name: authors
-    description: ''
+    description: 'Interactions with authors'
 paths:
   /books/:
     get:
@@ -117,6 +117,10 @@ paths:
                 $ref: '#/components/schemas/Book'
         '404':
           description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book_does_not_exist'
     put:
       tags:
         - books
@@ -363,6 +367,15 @@ components:
         status:
           type: integer
           example: 400
+    Book_does_not_exist:
+      type: object
+      properties:
+        Error:
+          type: string
+          example: Book does not exist
+        status:
+          type: integer
+          example: 404
     Author:
       type: object
       properties:
@@ -388,3 +401,4 @@ components:
         status:
           type: integer
           example: 404
+          
