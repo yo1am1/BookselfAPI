@@ -37,7 +37,7 @@ class BookView(View):
                 )
                 return HttpResponse(book_data, content_type="application/json")
             except Book.DoesNotExist:
-                return JsonResponse({"Error": "Book does not exist", "status": 404})
+                return JsonResponse({"Error": "Book does not exist", "status": 404}, status=404)
         else:
             title = request.GET.get("title")
             author = request.GET.get("author")
@@ -76,7 +76,7 @@ class BookView(View):
         try:
             request_body = json.loads(request.body)
         except ValueError:
-            return JsonResponse({"message": "Invalid data", "status": 400})
+            return JsonResponse({"message": "Invalid data", "status": 400}, status=400)
         title = request_body.get("title")
         publish_year = request_body.get("publish_year")
         author = request_body.get("author")
@@ -91,7 +91,7 @@ class BookView(View):
                     "message": "Missing data field. Please, check your input",
                     "fields": {1: "title", 2: "publish_year", 3: "author", 4: "genre"},
                     "status": 400,
-                }
+                }, status=400
             )
         author = Author.objects.get_or_create(name=author)
 
@@ -134,7 +134,7 @@ class BookView(View):
                     {
                         "message": "No fields were updated",
                         "status": 200,
-                    }
+                    }, status=200
                 )
 
             book.title = request_body.get("title", book.title)
@@ -158,18 +158,18 @@ class BookView(View):
             }
             return JsonResponse(context, safe=False)
         except Book.DoesNotExist:
-            return JsonResponse({"Error": "Book does not exist", "status": 400})
+            return JsonResponse({"Error": "Book does not exist", "status": 400}, status=400)
         except ValueError:
-            return JsonResponse({"message": "Invalid data", "status": 400})
+            return JsonResponse({"message": "Invalid data", "status": 400}, status=400)
 
     def delete(self, request, book_id):
         try:
             book = Book.objects.get(id=book_id)
             book.delete()
             context = {"book": f"'{book}' has been deleted", "status": 204}
-            return JsonResponse(context, safe=False)
+            return JsonResponse(context, safe=False, status=204)
         except Book.DoesNotExist:
-            return JsonResponse({"Error": "Book does not exist", "status": 400})
+            return JsonResponse({"Error": "Book does not exist", "status": 400}, status=400)
 
 
 class AuthorsView(View):
@@ -195,7 +195,7 @@ class AuthorsView(View):
                     {
                         "message": "No authors found",
                         "status": 404,
-                    }
+                    }, status=404
                 )
 
             authors_data = serialize("json", authors, indent=4).replace("\n", " ")

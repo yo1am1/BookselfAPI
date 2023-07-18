@@ -26,7 +26,7 @@ paths:
       description: Returns books list
       operationId: getBooks
       parameters:
-        - name: name
+        - name: title
           in: query
           description: books name
           required: false
@@ -60,7 +60,14 @@ paths:
                 items:
                   $ref: '#/components/schemas/Book'
         '404':
-          description: Bad request
+          description: Not found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book_does_not_found'
+
     post:
       tags:
         - books
@@ -75,7 +82,7 @@ paths:
               $ref: '#/components/schemas/Book_post_request_body'
         required: true
       responses:
-        '200':
+        '400':
           description: Book already exists
           content:
             application/json:
@@ -87,6 +94,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Book'
+
   /books/{bookId}:
     get:
       tags:
@@ -212,31 +220,40 @@ paths:
                 $ref: '#/components/schemas/Author'
         '404':
           description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author_does_not_exist'
 components:
   schemas:
     Book:
       type: object
       properties:
-        id:
+        model:
+          type: string
+          example: book_shelf.book
+        pk:
           type: integer
           format: int64
           example: 3
-        title:
-          type: string
-          description: The title of the book
-          example: The Lord of the Rings
-        publish_year:
-          type: integer
-          description: The year the book was published
-          example: 1954
-        author:
-          type: string
-          description: The author of the book
-          example: J. R. R. Tolkien
-        genre:
-          type: string
-          description: The genre of the book
-          example: Fantasy
+        fields:
+          type: object
+          properties:
+            title:
+              type: string
+              example: The Lord of the Rings
+            publish_year:
+              type: integer
+              description: The year the book was published
+              example: 1954
+            author:
+              type: string
+              description: The author of the book
+              example: J. R. R. Tolkien
+            genre:
+              type: string
+              description: The genre of the book
+              example: Fantasy
     Book_post_request_body:
       type: object
       properties:
@@ -261,6 +278,15 @@ components:
         status:
           type: integer
           example: 400
+    Book_does_not_found:
+      type: object
+      properties:
+        message:
+          type: string
+          example: No books found
+        status:
+          type: integer
+          example: 404
     Book_put_request_body:
       type: object
       properties:
@@ -307,10 +333,22 @@ components:
     Author:
       type: object
       properties:
-        id:
+        model:
+          type: string
+          example: book_shelf.author
+        pk:
           type: integer
           format: int64
           example: 10
-        name:
+        fields:
+          type: object
+          properties:
+            name:
+              type: string
+              example: Artur Conan Doyle
+    Author_does_not_exist:
+      type: object
+      properties:
+        Error:
           type: string
-          example: Artur Conan Doyle
+          example: Author does not exist
