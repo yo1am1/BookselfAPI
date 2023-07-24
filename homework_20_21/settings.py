@@ -97,9 +97,11 @@ WSGI_APPLICATION = "homework_20_21.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+IS_DOCKER = os.environ.get("DOCKER_CONTAINER", False)
+
 if IS_HEROKU_APP:
     DATABASES = {"default": dj_database_url.config(conn_max_age=600, ssl_require=True)}
-else:
+elif IS_DOCKER:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
@@ -108,6 +110,13 @@ else:
             "PASSWORD": "example",
             "HOST": "db",
             "PORT": "5432",
+        }
+    }
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
         }
     }
 
