@@ -38,7 +38,7 @@ if not IS_HEROKU_APP:
 if IS_HEROKU_APP:
     ALLOWED_HOSTS = ["*"]
 else:
-    ALLOWED_HOSTS = ["127.0.0.1", "0.0.0.0", "localhost"]
+    ALLOWED_HOSTS = ["127.0.0.1", "0.0.0.0"]
 
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
