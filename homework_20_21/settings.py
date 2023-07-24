@@ -163,7 +163,7 @@ STORAGES = {
     },
 }
 
-if not IS_HEROKU_APP:
+if not IS_HEROKU_APP and IS_DOCKER:
     CACHES = {
         "default": {
             "BACKEND": "django.core.cache.backends.redis.RedisCache",
