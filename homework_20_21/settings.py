@@ -42,7 +42,7 @@ else:
 
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = ["http://localhost:8000", "https://editor.swagger.io"]
+CORS_ALLOWED_ORIGINS = ["http://localhost:8000", "https://editor.swagger.io", "http://0.0.0.0:8000"]
 
 DEBUG = True
 
@@ -98,8 +98,12 @@ if IS_HEROKU_APP:
 else:
     DATABASES = {
         "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": "postgres",
+            "USER": "postgres",
+            "PASSWORD": "example",
+            "HOST": "db",
+            "PORT": "5432",
         }
     }
 
@@ -144,6 +148,13 @@ STORAGES = {
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
+}
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": "redis://redis:6379/",
+    }
 }
 
 WHITENOISE_KEEP_ONLY_HASHED_FILES = True
