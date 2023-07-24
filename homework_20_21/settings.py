@@ -150,12 +150,13 @@ STORAGES = {
     },
 }
 
-CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": "redis://redis:6379/",
+if not IS_HEROKU_APP:
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.redis.RedisCache",
+            "LOCATION": "redis://redis:6379/",
+        }
     }
-}
 
 WHITENOISE_KEEP_ONLY_HASHED_FILES = True
 # Default primary key field type
