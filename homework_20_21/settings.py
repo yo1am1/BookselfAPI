@@ -42,7 +42,11 @@ else:
 
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = ["http://localhost:8000", "https://editor.swagger.io", "http://0.0.0.0:8000"]
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8000",
+    "https://editor.swagger.io",
+    "http://0.0.0.0:8000",
+]
 
 DEBUG = True
 
