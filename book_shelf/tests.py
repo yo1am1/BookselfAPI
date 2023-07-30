@@ -281,38 +281,25 @@ def test_book_filter_all(mocked):
     )
     response_body = response.json()
 
-    expected_response = [
-        {
-            "fields": {
-                "author": "(<Author: Me>, False)",
-                "genre": "Autobiography",
-                "publish_year": 2035,
-                "title": "Foo 2: The awakening",
-            },
-            "model": "book_shelf.book",
-            "pk": 2,
-        },
-        {
-            "fields": {
-                "author": "Me",
-                "genre": "Comedy? Tragedy...",
-                "publish_year": 2023,
-                "title": "Update name",
-            },
-            "model": "book_shelf.book",
-            "pk": 1,
-        },
-        {
-            "fields": {
-                "author": "(<Author: Arthur Conan Doyle>, False)",
-                "genre": "Novel",
-                "publish_year": 1892,
-                "title": "The Adventures of Sherlock Holmes",
-            },
-            "model": "book_shelf.book",
-            "pk": 8,
-        },
-    ]
+    expected_response = [{'fields': {'author': '(<Author: Me>, False)',
+                                     'genre': 'Autobiography',
+                                     'publish_year': 2035,
+                                     'title': 'Foo 2: The awakening'},
+                          'model': 'book_shelf.book',
+                          'pk': 2},
+                         {'fields': {'author': '(<Author: Arthur Conan Doyle>, False)',
+                                     'genre': 'Novel',
+                                     'publish_year': 1892,
+                                     'title': 'The Adventures of Sherlock Holmes'},
+                          'model': 'book_shelf.book',
+                          'pk': 8},
+                         {'fields': {'author': 'Me',
+                                     'genre': 'Comedy? Tragedy...',
+                                     'publish_year': 2023,
+                                     'title': 'Update name'},
+                          'model': 'book_shelf.book',
+                          'pk': 1}
+                         ]
 
     assert response_body == expected_response
 
@@ -344,8 +331,8 @@ def test_book_put_method(mocked):
 
     expected_response = {
         "book": '[{    "model": "book_shelf.book",    "pk": 1,    "fields": {        '
-        '"title": "Update name",        "publish_year": 2023,        '
-        '"author": "try",        "genre": "Comedy? Tragedy..."    }}]',
+                '"title": "Update name",        "publish_year": 2023,        '
+                '"author": "try",        "genre": "Comedy? Tragedy..."    }}]',
         "message": "Book 'Update name' has been updated",
         "status": 200,
         "updated_fields": ["author"],
@@ -366,8 +353,8 @@ def test_book_put_method_one_more(mocked):
     response_body = response.json()
     expected_response = {
         "book": '[{    "model": "book_shelf.book",    "pk": 1,    "fields": {        '
-        '"title": "Update name",        "publish_year": 2023,        '
-        '"author": "Me",        "genre": "Comedy? Tragedy..."    }}]',
+                '"title": "Update name",        "publish_year": 2023,        '
+                '"author": "Me",        "genre": "Comedy? Tragedy..."    }}]',
         "message": "Book 'Update name' has been updated",
         "status": 200,
         "updated_fields": ["author"],
