@@ -2,7 +2,9 @@ import json
 
 from django.core.serializers import serialize
 from django.db.models import Q
+from django.utils.decorators import method_decorator
 from django.views import View
+from django.views.decorators.cache import cache_page
 
 from .models import Book, Author
 
@@ -26,6 +28,7 @@ def urls(request):
 
 
 class BookView(View):
+    @method_decorator(cache_page(60 * 15))
     def get(self, request, book_id=None):
         if book_id is not None:
             try:
@@ -183,6 +186,7 @@ class BookView(View):
 
 
 class AuthorsView(View):
+    @method_decorator(cache_page(60 * 15))
     def get(self, request, author_id=None):
         if author_id is not None:
             try:

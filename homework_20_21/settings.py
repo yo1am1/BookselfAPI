@@ -38,11 +38,15 @@ if not IS_HEROKU_APP:
 if IS_HEROKU_APP:
     ALLOWED_HOSTS = ["*"]
 else:
-    ALLOWED_HOSTS = ["127.0.0.1", "0.0.0.0", "localhost"]
+    ALLOWED_HOSTS = ["127.0.0.1", "0.0.0.0"]
 
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = ["http://localhost:8000", "https://editor.swagger.io"]
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8000",
+    "https://editor.swagger.io",
+    "http://0.0.0.0:8000",
+]
 
 DEBUG = True
 
@@ -93,8 +97,21 @@ WSGI_APPLICATION = "homework_20_21.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+IS_DOCKER = os.environ.get("DOCKER_CONTAINER", False)
+
 if IS_HEROKU_APP:
     DATABASES = {"default": dj_database_url.config(conn_max_age=600, ssl_require=True)}
+elif IS_DOCKER:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": "postgres",
+            "USER": "postgres",
+            "PASSWORD": "example",
+            "HOST": "db",
+            "PORT": "5432",
+        }
+    }
 else:
     DATABASES = {
         "default": {
@@ -145,6 +162,14 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
+
+if not IS_HEROKU_APP and IS_DOCKER:
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.redis.RedisCache",
+            "LOCATION": "redis://redis:6379/",
+        }
+    }
 
 WHITENOISE_KEEP_ONLY_HASHED_FILES = True
 # Default primary key field type
