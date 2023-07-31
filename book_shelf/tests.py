@@ -283,34 +283,34 @@ def test_book_filter_all(mocked):
 
     expected_response = [
         {
-            "fields": {
-                "author": "(<Author: Me>, False)",
-                "genre": "Autobiography",
-                "publish_year": 2035,
-                "title": "Foo 2: The awakening",
-            },
             "model": "book_shelf.book",
             "pk": 2,
+            "fields": {
+                "title": "Foo 2: The awakening",
+                "publish_year": 2035,
+                "author": "(<Author: Me>, False)",
+                "genre": "Autobiography",
+            },
         },
         {
-            "fields": {
-                "author": "(<Author: Arthur Conan Doyle>, False)",
-                "genre": "Novel",
-                "publish_year": 1892,
-                "title": "The Adventures of Sherlock Holmes",
-            },
             "model": "book_shelf.book",
             "pk": 8,
+            "fields": {
+                "title": "The Adventures of Sherlock Holmes",
+                "publish_year": 1892,
+                "author": "(<Author: Arthur Conan Doyle>, False)",
+                "genre": "Novel",
+            },
         },
         {
-            "fields": {
-                "author": "Me",
-                "genre": "Comedy? Tragedy...",
-                "publish_year": 2023,
-                "title": "Update name",
-            },
             "model": "book_shelf.book",
             "pk": 1,
+            "fields": {
+                "title": "Update name",
+                "publish_year": 2023,
+                "author": "Me",
+                "genre": "Comedy? Tragedy...",
+            },
         },
     ]
 
@@ -393,3 +393,4 @@ def test_book_put_method_already_used(mocked):
 
 if __name__ == "__main__":
     pytest.main()
+    
