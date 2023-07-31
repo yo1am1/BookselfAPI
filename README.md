@@ -1,3 +1,2 @@
-# Book library
-## homework_22
-> You can find documentation in [swagger.yml](https://github.com/yo1am1/homework_21/blob/docker/swagger.yml) file
+# BookstoreAPI v2.0-dokerized
+> You can find documentation in [swagger.yml](https://github.com/yo1am1/bookstore-api/blob/docker/swagger.yml) file
