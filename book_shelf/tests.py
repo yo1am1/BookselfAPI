@@ -393,4 +393,3 @@ def test_book_put_method_already_used(mocked):
 
 if __name__ == "__main__":
     pytest.main()
-    
