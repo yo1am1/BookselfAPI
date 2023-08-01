@@ -1,4 +1,5 @@
 [![Python](https://img.shields.io/badge/Python-14354C?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org)
+[![Heroku](https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white)](https://boiling-dusk-49835-df388a71925c.herokuapp.com/api_v2/)
 
 [![License: MIT](https://img.shields.io/github/license/yo1am1/bookstore-api)](https://github.com/yo1am1/bookstore-api/blob/main/LICENSE)
 
