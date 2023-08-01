@@ -25,7 +25,7 @@ jobs:
 
       - name: Run pytest
         run: |
-          pytest tests.py # Replace 'tests.py' with the actual name of your pytest file
+          pytest 
 
       - name: Codecov
         uses: codecov/codecov-action@v3.1.4
