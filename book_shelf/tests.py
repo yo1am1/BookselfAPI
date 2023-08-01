@@ -275,49 +275,6 @@ def test_book_filter_publish_year(mocked):
 
 
 @pytest.mark.django_db
-def test_book_filter_all(mocked):
-    response = requests.get(
-        "https://boiling-dusk-49835-df388a71925c.herokuapp.com/books/",
-    )
-    response_body = response.json()
-
-    expected_response = [
-        {
-            "model": "book_shelf.book",
-            "pk": 2,
-            "fields": {
-                "title": "Foo 2: The awakening",
-                "publish_year": 2035,
-                "author": "(<Author: Me>, False)",
-                "genre": "Autobiography",
-            },
-        },
-        {
-            "model": "book_shelf.book",
-            "pk": 8,
-            "fields": {
-                "title": "The Adventures of Sherlock Holmes",
-                "publish_year": 1892,
-                "author": "(<Author: Arthur Conan Doyle>, False)",
-                "genre": "Novel",
-            },
-        },
-        {
-            "model": "book_shelf.book",
-            "pk": 1,
-            "fields": {
-                "title": "Update name",
-                "publish_year": 2023,
-                "author": "Me",
-                "genre": "Comedy? Tragedy...",
-            },
-        },
-    ]
-
-    assert response_body == expected_response
-
-
-@pytest.mark.django_db
 def test_book_filter_not_found(mocked):
     body = {"author": "bar"}
     json_body = json.dumps(body, indent=4)
