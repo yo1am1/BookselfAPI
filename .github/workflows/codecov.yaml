@@ -18,7 +18,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt # Replace with the command to install your project dependencies
+          pip install -r requirements.txt 
+          pip install pytest-cov
 
       - name: Run pytest
         run: |
