@@ -1,6 +1,7 @@
 # BookstoreAPI v2.0-beta.1 
 
 [![License: MIT](https://img.shields.io/github/license/yo1am1/bookstore-api)](https://github.com/yo1am1/bookstore-api/blob/main/LICENSE)
+[![codecov](https://codecov.io/gh/yo1am1/bookstore-api/branch/main/graph/badge.svg?token=D8TONVLGHY)](https://codecov.io/gh/yo1am1/bookstore-api)
 
 ## [Documentation](https://app.swaggerhub.com/apis-docs/BIGDIEBAM/book-shelf_social_experiment/2.0.0)
 > To use the documentation, click on Documentation link above.
