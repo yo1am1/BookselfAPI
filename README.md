@@ -10,7 +10,7 @@
 > 
 > Although, you can find documentation in [swagger.yml](https://github.com/yo1am1/bookstore-api/blob/homework_23/swagger.yml) file.
 ### To download and use this repository.
-1. Clone this repositor.
+1. Clone the repository.
     ```bash
      git clone https://github.com/yo1am1/bookstore-api.git
     ```
