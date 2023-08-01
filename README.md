@@ -1,7 +1,8 @@
-# BookstoreAPI v2.0-beta.1 
+[![Python](https://img.shields.io/badge/Python-14354C?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org)
 
 [![License: MIT](https://img.shields.io/github/license/yo1am1/bookstore-api)](https://github.com/yo1am1/bookstore-api/blob/main/LICENSE)
 
+# BookstoreAPI v2.0-beta.1 
 
 ## [Documentation](https://app.swaggerhub.com/apis-docs/BIGDIEBAM/book-shelf_social_experiment/2.0.0)
 > To use the documentation, click on Documentation link above.
