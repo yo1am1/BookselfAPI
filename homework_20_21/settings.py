@@ -51,6 +51,9 @@ CORS_ALLOWED_ORIGINS = [
 DEBUG = True
 
 INSTALLED_APPS = [
+    "rest_framework",
+    "rest_framework.authtoken",
+    "rest_framework_simplejwt",
     "whitenoise.runserver_nostatic",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -60,10 +63,13 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "book_shelf.apps.BookShelfConfig",
     "corsheaders",
+    "apiv2",
 ]
 
 MIDDLEWARE = [
     "whitenoise.middleware.WhiteNoiseMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -71,7 +77,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = "homework_20_21.urls"
@@ -101,7 +106,8 @@ IS_DOCKER = os.environ.get("DOCKER_CONTAINER", False)
 
 if IS_HEROKU_APP:
     DATABASES = {"default": dj_database_url.config(conn_max_age=600, ssl_require=True)}
-elif IS_DOCKER:
+
+elif IS_DOCKER and not IS_HEROKU_APP:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
@@ -174,5 +180,11 @@ if not IS_HEROKU_APP and IS_DOCKER:
 WHITENOISE_KEEP_ONLY_HASHED_FILES = True
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
+}
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

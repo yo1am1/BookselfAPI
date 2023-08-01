@@ -1,22 +1,22 @@
 openapi: 3.0.3
 info:
   title: Book Shelf - social experiment
-  description: >-
+  description: >
     This is an API for a book shelf. You can add whatever books you like.
-
     There is only one rule: do not add books that are not real.
-
     It is a social experiment to see if people will voluntarily obey the rules
     to create a better community.
-  version: 1.0.0
+  version: 2.0.0
 servers:
-  - url: https://boiling-dusk-49835-df388a71925c.herokuapp.com/
+  - url: https://apiv2-homework-23-gb3yldnynm3h.herokuapp.com/api_v2/
   - url: http://127.0.0.1:8000/
 tags:
   - name: books
-    description: 'Books interactions'
+    description: 'Interactions with books'
   - name: authors
     description: 'Interactions with authors'
+  - name: users
+    description: 'User interactions'
 paths:
   /books/:
     get:
@@ -67,7 +67,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Book_does_not_found'
+  /books/create/:
     post:
+      security:
+        - bearerAuth: []
       tags:
         - books
       summary: Add a new book and author to the store
@@ -117,11 +120,10 @@ paths:
                 $ref: '#/components/schemas/Book'
         '404':
           description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Book_does_not_exist'
+  /books/update/{bookId}/:
     put:
+      security:
+        - bearerAuth: []
       tags:
         - books
       summary: Update book by ID
@@ -151,7 +153,10 @@ paths:
                 $ref: '#/components/schemas/Book_after_update'
         '404':
           description: Not found
+  /books/delete/{bookId}/:
     delete:
+      security:
+        - bearerAuth: []
       tags:
         - books
       summary: Delete book by ID
@@ -166,7 +171,7 @@ paths:
             type: integer
             format: int64
       responses:
-        '200':
+        '204':
           description: Successful operation
           content:
             application/json:
@@ -236,6 +241,142 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Author_does_not_exist'
+  /authors/create/:
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+        - authors
+      summary: Add new author
+      description: Add new author to the library
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthorInput'
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author'
+  /authors/update/{id}/:
+    put:
+      security:
+        - bearerAuth: []
+      tags:
+        - authors
+      summary: Update the author
+      description: Update the existent author by id
+      parameters:
+        - name: id
+          in: path
+          description: Author id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthorInput'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author'
+        '404':
+          description: Not found
+  /authors/delete/{id}:
+    delete:
+      security:
+        - bearerAuth: []
+      tags:
+        - authors
+      summary: Author delete
+      description: Delete the existent author using id
+      parameters:
+        - name: id
+          in: path
+          description: Author id
+          required: true
+          schema:
+              type: integer
+      responses:
+        '204':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author_does_not_exist'
+  /users/register/:
+    post:
+      tags:
+        - users
+      summary: User registration
+      description: New user registration form
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegistration'
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Something went wrong
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User_creation_error'
+  /users/login/:
+    post:
+      tags:
+        - users
+      summary: User login
+      description: User login form
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User_login_successful'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User_login_error_form'
+        '401':
+          description: Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User_login_error'
+
 components:
   schemas:
     Book:
@@ -259,9 +400,9 @@ components:
               description: The year the book was published
               example: 1954
             author:
-              type: string
+              type: integer
               description: The author of the book
-              example: J. R. R. Tolkien
+              example: 1
             genre:
               type: string
               description: The genre of the book
@@ -276,8 +417,8 @@ components:
           type: integer
           example: 1954
         author:
-          type: string
-          example: J. R. R. Tolkien
+          type: integer
+          example: 1
         genre:
           type: string
           example: Fantasy
@@ -288,8 +429,8 @@ components:
           type: string
           example: The Adventures of Sherlock Holmes
         author:
-          type: string
-          example: Arthur Conan Doyle
+          type: integer
+          example: 1
         genre:
           type: string
           example: Novel
@@ -332,32 +473,23 @@ components:
     Book_after_update:
       type: object
       properties:
-        message:
-          type: string
-          example: Book 'Update name' has been updated
-        updated_fields:
-          type: array
-          items:
-            type: string
-            example: title
-        book:
-          type: string
-          example: >-
-            [{    "model": "book_shelf.book",    "pk": 1,    "fields": {       
-            "title": "Update name",        "publish_year": 2023,       
-            "author": "Me",        "genre": "Comedy? Tragedy..."    }}]
-        status:
+        id:
           type: integer
-          example: 200
+          example: 4
+        title:
+          type: string
+          example: Update name
+        publish_year:
+          type: integer
+          example: 1892
+        author:
+          type: integer
+          example: 1
+        genre:
+          type: string
+          example: Update genre
     Book_after_delete:
       type: object
-      properties:
-        book:
-          type: string
-          example: The Adventures of Sherlock Holmes has been deleted
-        status:
-          type: string
-          example: 200
     Book_does_not_exist_delete:
       type: object
       properties:
@@ -367,31 +499,22 @@ components:
         status:
           type: integer
           example: 400
-    Book_does_not_exist:
-      type: object
-      properties:
-        Error:
-          type: string
-          example: Book does not exist
-        status:
-          type: integer
-          example: 404
     Author:
       type: object
       properties:
-        model:
-          type: string
-          example: book_shelf.author
-        pk:
+        id:
           type: integer
           format: int64
           example: 10
-        fields:
-          type: object
-          properties:
-            name:
-              type: string
-              example: Artur Conan Doyle
+        name:
+          type: string
+          example: John 2... Still trying...
+    AuthorInput:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Artur Conan Doyle
     Author_does_not_exist:
       type: object
       properties:
@@ -401,3 +524,84 @@ components:
         status:
           type: integer
           example: 404
+    UserRegistration:
+      type: object
+      properties:
+        username:
+          type: string
+          example: test_username
+        email:
+          type: string
+          example: example@gmail.com
+        password:
+          type: string
+          example: Example244685071204
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+          example: test3
+        email:
+          type: string
+          example: test3@test.com
+
+    User_creation_error:
+      type: object
+      properties:
+        username:
+          type: string
+          example: A user with that username already exists.
+        email:
+          type: string
+          example: Email already exists
+        password:
+          type: array
+          items:
+            type: string
+            example: ['This password is too short. It must contain at least 8 characters.', 'This password is too common.', 'This password is entirely numeric.']
+    UserLogin:
+      type: object
+      properties:
+        username:
+          type: string
+          example: test_username
+        password:
+          type: string
+          example: Example244685071204
+    User_login_successful:
+      type: object
+      properties:
+        refresh:
+          type: string
+          example: your refresh token
+        access:
+         type: string
+         example: your access token
+        email:
+          type: string
+          example: example@gmail.com
+    User_login_error:
+      type: object
+      properties:
+       detail:
+        type: string
+        example: No active account found with the given credentials
+    User_login_error_form:
+      type: object
+      properties:
+        username:
+          type: string
+          example: [
+        "This field may not be blank."
+    ]
+        password:
+          type: string
+          example: [
+        "This field may not be blank."
+    ]
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
