@@ -2,6 +2,9 @@
 [![Heroku](https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white)](https://boiling-dusk-49835-df388a71925c.herokuapp.com/api_v2/)
 
 [![License: MIT](https://img.shields.io/github/license/yo1am1/bookstore-api)](https://github.com/yo1am1/bookstore-api/blob/main/LICENSE)
+[![GitHub last commit](https://img.shields.io/github/last-commit/yo1am1/bookstore-api)](https://github.com/yo1am1/bookstore-api/commits/main)
+![Lint](https://github.com/yo1am1/bookstore-api/actions/workflows/black.yaml/badge.svg?event=push)
+![Lint](https://github.com/yo1am1/bookstore-api/actions/workflows/test.yml/badge.svg?event=push)
 
 # BookstoreAPI v2.0-beta.1 
 
