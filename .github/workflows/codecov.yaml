@@ -25,7 +25,7 @@ jobs:
         pip install django
     - name: Run Tests
       run: |
-        DJANGO_SETTINGS_MODULE=homework_20_21.settings pytest --cov=./ --cov-report=xml
+        $env:DJANGO_SETTINGS_MODULE=homework_20_21.settings pytest --cov=./ --cov-report=xml
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
       with:
