@@ -3,6 +3,7 @@
 
 [![License: MIT](https://img.shields.io/github/license/yo1am1/bookstore-api)](https://github.com/yo1am1/bookstore-api/blob/main/LICENSE)
 [![GitHub last commit](https://img.shields.io/github/last-commit/yo1am1/bookstore-api)](https://github.com/yo1am1/bookstore-api/commits/main)
+![Codecov](https://img.shields.io/codecov/c/github/yo1am1/bookstore-api?token=D8TONVLGHY)
 ![Lint](https://github.com/yo1am1/bookstore-api/actions/workflows/black.yaml/badge.svg?event=push)
 ![Pytest](https://github.com/yo1am1/bookstore-api/actions/workflows/test.yml/badge.svg?event=push)
 ![GitHub Latest Pre-Release)](https://img.shields.io/github/v/release/yo1am1/bookstore-api?include_prereleases&label=pre-release&logo=github)  
