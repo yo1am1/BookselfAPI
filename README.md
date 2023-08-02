@@ -12,6 +12,8 @@
 
 # BookstoreAPI v2.0-beta.1 
 
+<a href="https://codecov.io/gh/yo1am1/bookstore-api" >  <img src="https://codecov.io/gh/yo1am1/bookstore-api/branch/main/graphs/tree.svg?token=D8TONVLGHY"/>  </a>
+
 ## [Documentation](https://app.swaggerhub.com/apis-docs/BIGDIEBAM/book-shelf_social_experiment/2.0.0)
 > To use the documentation, click on Documentation link above.
 > 
