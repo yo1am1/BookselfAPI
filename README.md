@@ -6,7 +6,8 @@
 ![Lint](https://github.com/yo1am1/bookstore-api/actions/workflows/black.yaml/badge.svg?event=push)
 ![Pytest](https://github.com/yo1am1/bookstore-api/actions/workflows/test.yml/badge.svg?event=push)
 ![GitHub Latest Pre-Release)](https://img.shields.io/github/v/release/yo1am1/bookstore-api?include_prereleases&label=pre-release&logo=github)  
-![GitHub Latest Release)](https://img.shields.io/github/v/release/yo1am1/bookstore-api?logo=github)
+<!-- ![GitHub Latest Release)](https://img.shields.io/github/v/release/yo1am1/bookstore-api?logo=github)
+-->
 
 # BookstoreAPI v2.0-beta.1 
 
