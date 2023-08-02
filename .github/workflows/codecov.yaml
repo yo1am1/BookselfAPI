@@ -17,6 +17,7 @@ jobs:
         python-version: 3.11
     - name: Install Dependencies
       run: |
+        pip install -r requirements.txt
         pip install pytest
         pip install pytest-cov
         pip install requests   # Add this line for 'requests'
