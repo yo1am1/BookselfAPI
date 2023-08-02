@@ -30,10 +30,8 @@ jobs:
       uses: codecov/codecov-action@v3
       with:
         token: 4edc96c3-6c0a-46b4-bd2d-412b9a7d9a58
-        directory: ./coverage/reports/
         env_vars: OS,PYTHON
         fail_ci_if_error: true
-        files: ./coverage1.xml,./coverage2.xml,!./cache
         flags: unittests
         name: codecov-umbrella
         verbose: true
