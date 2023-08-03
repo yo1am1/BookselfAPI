@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-$2kgd@m*_ufi5uh%cinz+7+6#ky9&(8h*&8oz959=o#gqgm0^g"
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 IS_HEROKU_APP = "DYNO" in os.environ and not "CI" in os.environ
 
