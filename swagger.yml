@@ -8,6 +8,7 @@ info:
     to create a better community.
   version: 2.0.0
 servers:
+  - url: https://apiv2-homework-23-gb3yldnynm3h.herokuapp.com/api_v3/
   - url: https://apiv2-homework-23-gb3yldnynm3h.herokuapp.com/api_v2/
   - url: http://127.0.0.1:8000/
 tags:
