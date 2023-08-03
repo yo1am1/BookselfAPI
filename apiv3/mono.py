@@ -15,7 +15,7 @@ def create_order(order_data, webhook_url):
     order = Order.objects.create(total_price=0)
 
     for order_item in order_data:
-        item_sum = order_item["book_id"].price * order_item["quantity"]
+        item_sum = order_item["book_id"].price * order_item["amount"]
         basketOrder.append(
             {
                 "name": order_item["book_id"].title,
@@ -25,7 +25,7 @@ def create_order(order_data, webhook_url):
             }
         )
         item = OrderItem.objects.create(
-            book=order_item["book_id"], order=order, quantity=order_item["quantity"]
+            book=order_item["book_id"], order=order, quantity=order_item["amount"]
         )
         order_items.append(item)
         amount += item_sum

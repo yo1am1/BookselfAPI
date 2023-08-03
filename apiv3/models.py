@@ -11,6 +11,10 @@ class Book(models.Model):
     author = models.CharField(max_length=200)
     price = models.PositiveIntegerField()
     amount = models.IntegerField()
+    genre = models.CharField(max_length=200, null=True)
+
+    def __str__(self):
+        return self.title
 
 
 class Order(models.Model):
@@ -19,6 +23,9 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     invoice_id = models.CharField(max_length=200, null=True)
     status = models.CharField(max_length=200, null=True)
+
+    def __str__(self):
+        return f"Order #{self.id}"
 
 
 class OrderItem(models.Model):
