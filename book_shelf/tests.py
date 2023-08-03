@@ -1,14 +1,11 @@
 import json
 import pathlib
 
-import responses
-
 import pytest
 import requests
-
-from django.test import RequestFactory
-
+import responses
 from django.test import Client
+from django.test import RequestFactory
 from django.urls import reverse
 
 from book_shelf import views

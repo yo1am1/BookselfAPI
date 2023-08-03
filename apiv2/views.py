@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
@@ -5,9 +6,9 @@ from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
-from django.contrib.auth.models import User
-from apiv2.permissions import IsAuthenticatedOrReadOnly
+
 from apiv2.models import Author, Book
+from apiv2.permissions import IsAuthenticatedOrReadOnly
 from apiv2.serializers import (
     AuthorSerializer,
     BookSerializer,

@@ -2,13 +2,12 @@ import json
 
 from django.core.serializers import serialize
 from django.db.models import Q
+from django.http import JsonResponse, HttpResponse
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.cache import cache_page
 
 from .models import Book, Author
-
-from django.http import JsonResponse, HttpResponse
 
 
 def urls(request):
