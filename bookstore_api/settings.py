@@ -23,7 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = os.environ.get(
+    "DJANGO_SECRET_KEY",
+    default=secrets.token_urlsafe(nbytes=64),
+)
 
 IS_HEROKU_APP = "DYNO" in os.environ and not "CI" in os.environ
 
@@ -48,7 +51,6 @@ CORS_ALLOWED_ORIGINS = [
     "http://0.0.0.0:8000",
 ]
 
-DEBUG = True
 
 INSTALLED_APPS = [
     "rest_framework",
@@ -187,5 +189,7 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
 }
+
+MONOBANK_API_KEY = os.getenv("MONOBANK_API_KEY")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
