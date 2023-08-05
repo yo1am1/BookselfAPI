@@ -4,9 +4,9 @@ from apiv3 import views
 from apiv3.views import (
     UrlsDetail,
     CustomTokenObtainPairView,
-    OrderView,
+    OrderViewSet,
     OrderCallbackView,
-    OrdersViewSet,
+    OrderView,
     UserRegistrationView,
 )
 
@@ -34,9 +34,9 @@ urlpatterns = [
         name="user_get_token",
     ),
     path("urls/", UrlsDetail.as_view(), name="urls"),
-    path("order/", OrderView.as_view(), name="order"),
+    path("orders/list/", OrderViewSet.as_view({"get": "list"}), name="orders_list"),
     path("monobank/callback", OrderCallbackView.as_view(), name="mono_callback"),
-    path("orders", OrdersViewSet.as_view({"get": "list"}), name="orders"),
+    path("orders/", OrderView.as_view(), name="order_create"),
     path("register/", UserRegistrationView.as_view(), name="user_register"),
     path(
         "login/",

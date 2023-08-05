@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.db import transaction
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
@@ -52,8 +53,8 @@ class UrlsDetail(APIView):
                         "login": reverse("user_get_token"),
                     },
                     "mono": {
-                        "order": reverse("order"),
-                        "order_list": reverse("orders"),
+                        "order": reverse("order_create"),
+                        "order_list": reverse("orders_list"),
                     },
                 },
             ]
@@ -182,8 +183,8 @@ class BookDelete(generics.DestroyAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
 
-class OrdersViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Order.objects.all().order_by("-id")
+class OrderViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Order.objects.all().order_by("id")
     serializer_class = OrderModelSerializer
     permission_classes = [permissions.AllowAny]
 
@@ -191,6 +192,7 @@ class OrdersViewSet(viewsets.ReadOnlyModelViewSet):
 class OrderView(views.APIView):
     permission_classes = [permissions.AllowAny]
 
+    @transaction.atomic
     def post(self, request):
         order = OrderSerializer(data=request.data)
         order.is_valid(raise_exception=True)
@@ -218,5 +220,4 @@ class OrderCallbackView(views.APIView):
             return Response({"status": "invoiceId mismatch"}, status=400)
         order.status = callback.validated_data["status"]
         order.save()
-
         return Response({"status": "ok"})

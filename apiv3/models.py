@@ -3,7 +3,12 @@ from django.conf import settings
 from django.db import models
 
 
-# Create your models here.
+class Author(models.Model):
+    name = models.CharField(max_length=100)
+
+
+class Mono(models.Model):
+    urls = models.CharField(max_length=1000)
 
 
 class Book(models.Model):

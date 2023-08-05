@@ -6,18 +6,19 @@ info:
     There is only one rule: do not add books that are not real.
     It is a social experiment to see if people will voluntarily obey the rules
     to create a better community.
-  version: 2.0.0
+  version: 3.1-beta.1
 servers:
-  - url: https://apiv2-homework-23-gb3yldnynm3h.herokuapp.com/api_v3/
-  - url: https://apiv2-homework-23-gb3yldnynm3h.herokuapp.com/api_v2/
+  - url: https://boiling-dusk-49835-df388a71925c.herokuapp.com/api_v3/
   - url: http://127.0.0.1:8000/
 tags:
   - name: books
-    description: 'Interactions with books'
+    description: 'Books interactions'
   - name: authors
     description: 'Interactions with authors'
+  - name: orders
+    description: 'User orders'
   - name: users
-    description: 'User interactions'
+    description: 'User interaction'
 paths:
   /books/:
     get:
@@ -71,7 +72,7 @@ paths:
   /books/create/:
     post:
       security:
-        - bearerAuth: [ ]
+        - bearerAuth: []
       tags:
         - books
       summary: Add a new book and author to the store
@@ -124,7 +125,7 @@ paths:
   /books/update/{bookId}/:
     put:
       security:
-        - bearerAuth: [ ]
+        - bearerAuth: []
       tags:
         - books
       summary: Update book by ID
@@ -157,7 +158,7 @@ paths:
   /books/delete/{bookId}/:
     delete:
       security:
-        - bearerAuth: [ ]
+        - bearerAuth: []
       tags:
         - books
       summary: Delete book by ID
@@ -245,7 +246,7 @@ paths:
   /authors/create/:
     post:
       security:
-        - bearerAuth: [ ]
+        - bearerAuth: []
       tags:
         - authors
       summary: Add new author
@@ -266,7 +267,7 @@ paths:
   /authors/update/{id}/:
     put:
       security:
-        - bearerAuth: [ ]
+        - bearerAuth: []
       tags:
         - authors
       summary: Update the author
@@ -296,7 +297,7 @@ paths:
   /authors/delete/{id}:
     delete:
       security:
-        - bearerAuth: [ ]
+        - bearerAuth: []
       tags:
         - authors
       summary: Author delete
@@ -307,7 +308,7 @@ paths:
           description: Author id
           required: true
           schema:
-            type: integer
+              type: integer
       responses:
         '204':
           description: Success
@@ -318,6 +319,25 @@ paths:
         '404':
           description: Not Found
           content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author_does_not_exist'
+  /order/:
+    post:
+      tags:
+        - orders
+      summary: Order the new book
+      description: ordering the book
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref:  '#/components/schemas/Order_creation'
+      responses:
+        '201':
+        description: Success
+        content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Author_does_not_exist'
@@ -560,7 +580,7 @@ components:
           type: array
           items:
             type: string
-            example: [ 'This password is too short. It must contain at least 8 characters.', 'This password is too common.', 'This password is entirely numeric.' ]
+            example: ['This password is too short. It must contain at least 8 characters.', 'This password is too common.', 'This password is entirely numeric.']
     UserLogin:
       type: object
       properties:
@@ -577,30 +597,30 @@ components:
           type: string
           example: your refresh token
         access:
-          type: string
-          example: your access token
+         type: string
+         example: your access token
         email:
           type: string
           example: example@gmail.com
     User_login_error:
       type: object
       properties:
-        detail:
-          type: string
-          example: No active account found with the given credentials
+       detail:
+        type: string
+        example: No active account found with the given credentials
     User_login_error_form:
       type: object
       properties:
         username:
           type: string
           example: [
-            "This field may not be blank."
-          ]
+        "This field may not be blank."
+    ]
         password:
           type: string
           example: [
-            "This field may not be blank."
-          ]
+        "This field may not be blank."
+    ]
   securitySchemes:
     bearerAuth:
       type: http

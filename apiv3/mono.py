@@ -15,6 +15,17 @@ def create_order(order_data, webhook_url):
     order = Order.objects.create(total_price=0)
 
     for order_item in order_data:
+        book = order_item["book_id"]
+        requested_amount = order_item["amount"]
+
+        if requested_amount > book.amount:
+            response_data = {
+                "message": f'Requested amount of book "{book.title}" is not available.',
+                "available_amount": book.amount,
+                "status": 400,
+            }
+            return response_data
+
         item_sum = order_item["book_id"].price * order_item["amount"]
         basketOrder.append(
             {
@@ -29,6 +40,10 @@ def create_order(order_data, webhook_url):
         )
         order_items.append(item)
         amount += item_sum
+
+        book.amount -= requested_amount
+        book.save()
+
     order.total_price = amount
     order.save()
 
