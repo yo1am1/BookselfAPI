@@ -12,11 +12,11 @@ class Mono(models.Model):
 
 
 class Book(models.Model):
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=255)
+    genre = models.CharField(max_length=255)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
-    price = models.PositiveIntegerField()
-    amount = models.IntegerField()
-    genre = models.CharField(max_length=200, null=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    amount = models.PositiveIntegerField()
 
     def __str__(self):
         return self.title
