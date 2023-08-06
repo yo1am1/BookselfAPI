@@ -32,7 +32,7 @@ urlpatterns = [
         name="token_obtain_pair",
     ),
     path("order/", OrderView.as_view(), name="order"),
-    path("order/<int:pk>", OrderDetailedView.as_view(), name="order"),
+    path("order/<int:pk>", OrderDetailedView.as_view(), name="order-detail"),
     path("orders/", OrdersViewSet.as_view({"get": "list"}), name="orders-list"),
     path("monobank/callback", OrderCallbackView.as_view(), name="mono_callback"),
 ]
