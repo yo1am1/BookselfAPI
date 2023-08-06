@@ -54,6 +54,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://0.0.0.0:8000",
 ]
 
+DEBUG = True
+
 INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
