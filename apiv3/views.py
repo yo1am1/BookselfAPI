@@ -1,5 +1,4 @@
 from django.contrib.auth.models import User
-from django.db import transaction
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
@@ -8,16 +7,16 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from apiv2.models import Author, Book
-from apiv2.permissions import IsAuthenticatedOrReadOnly
-from apiv2.serializers import (
+from apiv3.models import Author, Book
+from apiv3.models import Order, MonoSettings
+from apiv3.mono import create_order, verify_signature
+from apiv3.permissions import IsAuthenticatedOrReadOnly
+from apiv3.serializers import (
     AuthorSerializer,
     BookSerializer,
     UserRegistrationSerializer,
     CustomTokenObtainPairSerializer,
 )
-from apiv3.models import Order, MonoSettings
-from apiv3.mono import create_order, verify_signature
 from apiv3.serializers import (
     OrderModelSerializer,
     OrderSerializer,
@@ -183,8 +182,8 @@ class BookDelete(generics.DestroyAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
 
-class OrderViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Order.objects.all().order_by("id")
+class OrdersViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Order.objects.all().order_by("-id")
     serializer_class = OrderModelSerializer
     permission_classes = [permissions.AllowAny]
 
@@ -192,7 +191,6 @@ class OrderViewSet(viewsets.ReadOnlyModelViewSet):
 class OrderView(views.APIView):
     permission_classes = [permissions.AllowAny]
 
-    @transaction.atomic
     def post(self, request):
         order = OrderSerializer(data=request.data)
         order.is_valid(raise_exception=True)
@@ -206,18 +204,23 @@ class OrderCallbackView(views.APIView):
 
     def post(self, request):
         public_key = MonoSettings.get_token()
+
         if not verify_signature(
             public_key, request.headers.get("X-Sign"), request.body
         ):
             return Response({"status": "signature mismatch"}, status=400)
+
         callback = MonoCallbackSerializer(data=request.data)
         callback.is_valid(raise_exception=True)
+
         try:
             order = Order.objects.get(id=callback.validated_data["reference"])
         except Order.DoesNotExist:
             return Response({"status": "order not found"}, status=404)
+
         if order.invoice_id != callback.validated_data["invoiceId"]:
             return Response({"status": "invoiceId mismatch"}, status=400)
         order.status = callback.validated_data["status"]
         order.save()
-        return Response({"status": "ok"})
+
+        return Response({"status": "ok", "message": "Callback processed successfully"})

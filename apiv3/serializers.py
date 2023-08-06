@@ -66,6 +66,12 @@ class BookSerializer(serializers.ModelSerializer):
         fields = ["title", "genre", "author", "price", "amount", "id"]
 
 
+class AuthorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Book
+        fields = ["name", "id"]
+
+
 class OrderContentSerializer(serializers.Serializer):
     book_id = serializers.PrimaryKeyRelatedField(queryset=Book.objects.all())
     amount = serializers.IntegerField()

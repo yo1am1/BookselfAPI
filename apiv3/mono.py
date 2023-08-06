@@ -5,7 +5,7 @@ import ecdsa
 import requests
 from django.conf import settings
 
-from apiv3.models import Order, OrderItem
+from apiv3.models import Order, OrderItem, Mono
 
 
 def create_order(order_data, webhook_url):
@@ -64,6 +64,7 @@ def create_order(order_data, webhook_url):
     order.invoice_id = r.json()["invoiceId"]
     order.save()
     url = r.json()["pageUrl"]
+    Mono.objects.create(urls=url)
     return {"url": url, "id": order.id}
 
 
