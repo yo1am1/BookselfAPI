@@ -63,7 +63,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
-        fields = ["title", "genre", "author", "price", "amount", "id"]
+        fields = ["title", "genre", "author", "price", "amount", "id", "publish_year"]
 
 
 class AuthorSerializer(serializers.ModelSerializer):
