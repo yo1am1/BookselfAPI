@@ -84,7 +84,7 @@ class OrderSerializer(serializers.Serializer):
 class OrderModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ["total_price", "created_at", "invoice_id", "id", "books"]
+        fields = ["total_price", "created_at", "invoice_id", "id", "books", "status"]
 
 
 class MonoCallbackSerializer(serializers.Serializer):
