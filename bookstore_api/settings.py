@@ -21,9 +21,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
+IS_HEROKU_APP = "DYNO" in os.environ and not "CI" in os.environ
 
 # SECURITY WARNING: keep the secret key used in production secret!
-if "DJANGO_SECRET_KEY" in os.environ:
+if "DJANGO_SECRET_KEY" in os.environ or IS_HEROKU_APP:
     SECRET_KEY = os.environ.get(
         "DJANGO_SECRET_KEY",
         default=secrets.token_urlsafe(nbytes=64),
@@ -31,8 +32,6 @@ if "DJANGO_SECRET_KEY" in os.environ:
 else:
     SECRET_KEY = "django-insecure-$2kgd@m*_ufi5uh%cinz+7+6#ky9&(8h*&8oz959=o#gqgm0^g"
 
-
-IS_HEROKU_APP = "DYNO" in os.environ and not "CI" in os.environ
 
 # SECURITY WARNING: don't run with debug turned on in production!
 if not IS_HEROKU_APP:

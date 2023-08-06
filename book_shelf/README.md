@@ -1,5 +1,5 @@
-## This is the first version of BookAPI
+## This is the first version of BookstoreAPI
 
 > This version does NOT contain most of the features and only for educational purposes
 
-# Please, use the second version
+# Please, use the third version

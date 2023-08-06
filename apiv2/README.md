@@ -1,5 +1,5 @@
-# This is the current version of BookstoreAPI
+## This is the second version of BookstoreAPI
 
-> This is not the final version and does not contain most features, that will be on release
+> This version does NOT contain most of the features and only for educational purposes
 
-## This version is recomended to use
+# Please, use the third version
