@@ -134,8 +134,10 @@ class BookList(generics.ListAPIView):
     permission_classes = [permissions.AllowAny]
     pagination_class = LimitOffsetPagination
 
-    filter_backends = [filters.OrderingFilter]
+    filter_backends = [filters.OrderingFilter, filters.SearchFilter]
+    search_fields = ["title", "id"]
     ordering_fields = ["id", "price", "quantity", "publication_date"]
+
 
 
 class BookDetail(generics.RetrieveAPIView):
