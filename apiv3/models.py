@@ -19,7 +19,7 @@ class Book(models.Model):
     genre = models.CharField(max_length=255)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     publish_year = models.PositiveIntegerField()
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    price = models.PositiveIntegerField()
     amount = models.PositiveIntegerField()
 
     def __str__(self):
