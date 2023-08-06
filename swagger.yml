@@ -6,7 +6,7 @@ info:
     There is only one rule: do not add books that are not real.
     It is a social experiment to see if people will voluntarily obey the rules
     to create a better community.
-  version: 3.1-beta.1
+  version: 2.0.0
 servers:
   - url: https://boiling-dusk-49835-df388a71925c.herokuapp.com/api_v3/
   - url: http://127.0.0.1:8000/
@@ -72,7 +72,7 @@ paths:
   /books/create/:
     post:
       security:
-        - bearerAuth: [ ]
+        - bearerAuth: []
       tags:
         - books
       summary: Add a new book and author to the store
@@ -125,7 +125,7 @@ paths:
   /books/update/{bookId}/:
     put:
       security:
-        - bearerAuth: [ ]
+        - bearerAuth: []
       tags:
         - books
       summary: Update book by ID
@@ -158,7 +158,7 @@ paths:
   /books/delete/{bookId}/:
     delete:
       security:
-        - bearerAuth: [ ]
+        - bearerAuth: []
       tags:
         - books
       summary: Delete book by ID
@@ -246,7 +246,7 @@ paths:
   /authors/create/:
     post:
       security:
-        - bearerAuth: [ ]
+        - bearerAuth: []
       tags:
         - authors
       summary: Add new author
@@ -267,7 +267,7 @@ paths:
   /authors/update/{id}/:
     put:
       security:
-        - bearerAuth: [ ]
+        - bearerAuth: []
       tags:
         - authors
       summary: Update the author
@@ -297,7 +297,7 @@ paths:
   /authors/delete/{id}:
     delete:
       security:
-        - bearerAuth: [ ]
+        - bearerAuth: []
       tags:
         - authors
       summary: Author delete
@@ -308,7 +308,7 @@ paths:
           description: Author id
           required: true
           schema:
-            type: integer
+              type: integer
       responses:
         '204':
           description: Success
@@ -330,17 +330,23 @@ paths:
       description: ordering the book
       requestBody:
         required: true
-        content:
+        content:  
           application/json:
             schema:
-              $ref: '#/components/schemas/Order_creation'
+              $ref:  '#/components/schemas/Order_creation'
       responses:
         '201':
-        description: Success
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Author_does_not_exist'
+          description: Success
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/MonoAnswer'
+        '400':
+          description: Failed
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/OrderCreationFailed'         
   /users/register/:
     post:
       tags:
@@ -580,7 +586,7 @@ components:
           type: array
           items:
             type: string
-            example: [ 'This password is too short. It must contain at least 8 characters.', 'This password is too common.', 'This password is entirely numeric.' ]
+            example: ['This password is too short. It must contain at least 8 characters.', 'This password is too common.', 'This password is entirely numeric.']
     UserLogin:
       type: object
       properties:
@@ -597,30 +603,68 @@ components:
           type: string
           example: your refresh token
         access:
-          type: string
-          example: your access token
+         type: string
+         example: your access token
         email:
           type: string
           example: example@gmail.com
     User_login_error:
       type: object
       properties:
-        detail:
-          type: string
-          example: No active account found with the given credentials
+       detail:
+        type: string
+        example: No active account found with the given credentials
     User_login_error_form:
       type: object
       properties:
         username:
           type: string
           example: [
-            "This field may not be blank."
-          ]
+        "This field may not be blank."
+    ]
         password:
           type: string
           example: [
-            "This field may not be blank."
-          ]
+        "This field may not be blank."
+        ]
+    
+    Order_creation:
+      type: object
+      properties:
+        order:
+          type: array
+          items:
+            type: object
+            properties:
+              book_id:
+                type: integer
+                example: 2
+              quantity:
+                type: integer
+                example: 1
+            required:
+              - book_id
+              - quantity
+          example:
+            - book_id: 2
+              quantity: 1
+            - book_id: 3
+              quantity: 12
+    OrderCreationFailed:
+      type: object
+      properties:
+        detail:
+          type: string
+          example: "JSON parse error - Expecting property name enclosed in double quotes: line ... column ... (char ...)"
+    MonoAnswer:
+      type: object
+      properties:
+        url:
+          type: string
+          example: https://pay.mbnk.biz/654321123456rRk4H2hXxoJiv
+        id:
+          type: integer
+          example: 17
   securitySchemes:
     bearerAuth:
       type: http
