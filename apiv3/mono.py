@@ -12,6 +12,7 @@ def create_order(order_data, webhook_url):
     basketOrder = []
     order_items = []
     amount = 0
+
     order = Order.objects.create(total_price=0)
 
     for order_item in order_data:
