@@ -1,8 +1,10 @@
 from django.contrib.auth.models import User
+from django.db import transaction
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
-from rest_framework import generics, viewsets, permissions, views
+from rest_framework import generics, viewsets, permissions, views, filters
+from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -88,19 +90,14 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
 
 class AuthorList(generics.ListAPIView):
-    queryset = Author.objects.all()
-    description = "List of authors"
+    queryset = Author.objects.all().order_by("id")
     serializer_class = AuthorSerializer
+    permission_classes = [permissions.AllowAny]
+    pagination_class = LimitOffsetPagination
 
-    @method_decorator(cache_page(60 * 15))
-    def get(self, request):
-        queryset = Author.objects.all()
-        name = self.request.query_params.get("name")
-        if name:
-            queryset = queryset.filter(name__icontains=name)
-
-        serializer = self.serializer_class(queryset, many=True)
-        return Response(serializer.data)
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ["name", "id"]
+    ordering_fields = ["id", "name"]
 
 
 class AuthorCreate(generics.CreateAPIView):
@@ -131,26 +128,13 @@ class AuthorDelete(generics.DestroyAPIView):
 
 
 class BookList(generics.ListAPIView):
-    queryset = Book.objects.all()
-    description = "List of all books"
+    queryset = Book.objects.all().order_by("id")
     serializer_class = BookSerializer
+    permission_classes = [permissions.AllowAny]
+    pagination_class = LimitOffsetPagination
 
-    @method_decorator(cache_page(60 * 15))
-    def get(self, request):
-        queryset = Book.objects.all()
-        title = self.request.query_params.get("title")
-        author = self.request.query_params.get("author")
-        genre = self.request.query_params.get("genre")
-
-        if title:
-            queryset = queryset.filter(title__icontains=title)
-        if author:
-            queryset = queryset.filter(author__name__icontains=author)
-        if genre:
-            queryset = queryset.filter(genre__icontains=genre)
-
-        serializer = self.serializer_class(queryset, many=True)
-        return Response(serializer.data)
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ["id", "price", "quantity", "publication_date"]
 
 
 class BookDetail(generics.RetrieveAPIView):
@@ -186,17 +170,21 @@ class OrdersViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Order.objects.all().order_by("-id")
     serializer_class = OrderModelSerializer
     permission_classes = [permissions.AllowAny]
+    pagination_class = LimitOffsetPagination
+
+    ordering_fields = ["id", "total_price", "created_at"]
 
 
 class OrderView(views.APIView):
     permission_classes = [permissions.AllowAny]
 
+    @transaction.atomic
     def post(self, request):
         order = OrderSerializer(data=request.data)
         order.is_valid(raise_exception=True)
         webhook_url = request.build_absolute_uri(reverse("mono_callback"))
         order_data = create_order(order.validated_data["order"], webhook_url)
-        return Response(order_data)
+        return Response(order_data, status=201)
 
 
 class OrderCallbackView(views.APIView):
@@ -224,3 +212,23 @@ class OrderCallbackView(views.APIView):
         order.save()
 
         return Response({"status": "ok", "message": "Callback processed successfully"})
+
+
+class OrderDetailedView(views.APIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    description = "Order detailed view"
+
+    def get(self, request, pk):
+        try:
+            order = Order.objects.get(id=pk)
+        except Order.DoesNotExist:
+            return Response({"status": "order not found"}, status=404)
+        return Response(OrderModelSerializer(order).data)
+
+    def delete(self, request, pk):
+        try:
+            order = Order.objects.get(id=pk)
+        except Order.DoesNotExist:
+            return Response({"status": "order not found"}, status=404)
+        order.delete()
+        return Response({"status": "ok"})
