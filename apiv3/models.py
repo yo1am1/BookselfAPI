@@ -13,7 +13,7 @@ class Mono(models.Model):
 
 class Book(models.Model):
     title = models.CharField(max_length=200)
-    author = models.CharField(max_length=200)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE)
     price = models.PositiveIntegerField()
     amount = models.IntegerField()
     genre = models.CharField(max_length=200, null=True)
