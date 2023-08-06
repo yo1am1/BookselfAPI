@@ -1,12 +1,12 @@
 [![Python](https://img.shields.io/badge/Python-14354C?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org)
-[![Heroku](https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white)](https://boiling-dusk-49835-df388a71925c.herokuapp.com/api_v2/)
+[![Heroku](https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white)](https://cryptic-river-21647-7efe93940f14.herokuapp.com/api_v3)
 
-[![License: MIT](https://img.shields.io/github/license/yo1am1/bookstore-api)](https://github.com/yo1am1/bookstore-api/blob/main/LICENSE)
-[![GitHub last commit](https://img.shields.io/github/last-commit/yo1am1/bookstore-api)](https://github.com/yo1am1/bookstore-api/commits/main)
-![Codecov](https://img.shields.io/codecov/c/github/yo1am1/bookstore-api?token=D8TONVLGHY)
-![Lint](https://github.com/yo1am1/bookstore-api/actions/workflows/black.yaml/badge.svg?event=push)
-![Pytest](https://github.com/yo1am1/bookstore-api/actions/workflows/test.yml/badge.svg?event=push)
-![GitHub Latest Pre-Release)](https://img.shields.io/github/v/release/yo1am1/bookstore-api?include_prereleases&label=pre-release&logo=github)
+[![License: MIT](https://img.shields.io/github/license/yo1am1/bookstoreAPI)](https://github.com/yo1am1/bookstoreAPI/blob/main/LICENSE)
+[![GitHub last commit](https://img.shields.io/github/last-commit/yo1am1/bookstoreAPI)](https://github.com/yo1am1/bookstoreAPI/commits/main)
+![Codecov](https://img.shields.io/codecov/c/github/yo1am1/bookstoreAPI?token=D8TONVLGHY)
+![Lint](https://github.com/yo1am1/bookstoreAPI/actions/workflows/black.yaml/badge.svg?event=push)
+![Pytest](https://github.com/yo1am1/bookstoreAPI/actions/workflows/test.yml/badge.svg?event=push)
+![GitHub Latest Pre-Release)](https://img.shields.io/github/v/release/yo1am1/bookstoreAPI?include_prereleases&label=pre-release&logo=github)
 <!-- ![GitHub Latest Release)](https://img.shields.io/github/v/release/yo1am1/bookstore-api?logo=github)
 -->
 
