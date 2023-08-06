@@ -3,7 +3,7 @@ from django.contrib.auth.password_validation import validate_password, Validatio
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-from apiv3.models import Book, Order
+from apiv3.models import Book, Order, Author
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
@@ -68,7 +68,7 @@ class BookSerializer(serializers.ModelSerializer):
 
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Book
+        model = Author
         fields = ["name", "id"]
 
 
