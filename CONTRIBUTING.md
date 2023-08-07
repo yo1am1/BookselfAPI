@@ -17,7 +17,7 @@ Thank you for considering contributing to BookselfAPI! Your contributions help i
 
 If you encounter a bug or have a feature request, please:
 
-1. Check if the issue/request has already been reported on the [Issues](https://github.com/yo1am1/bookstore-api/issues) page.
+1. Check if the issue/request has already been reported on the [Issues](https://github.com/yo1am1/bookselfAPI/issues) page.
 2. If not, create a new issue with detailed information, including steps to reproduce (for bugs) or a clear description (for feature requests).
 
 ## Documentation
@@ -39,7 +39,7 @@ You can contribute to testing by:
 
 Engage with the community:
 
-- Join discussions on the [GitHub Discussions](https://github.com/yo1am1/bookstore-api/discussions) page.
+- Join discussions on the [GitHub Discussions](https://github.com/yo1am1/bookselfAPI/discussions) page.
 - Help answer questions from other contributors and users.
 - Foster a positive and inclusive environment.
 
