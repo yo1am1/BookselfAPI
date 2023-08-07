@@ -6,7 +6,6 @@ import requests
 BASE_URL = "https://cryptic-river-21647-7efe93940f14.herokuapp.com/"
 
 
-# @pytest.mark.xfail
 def test_post_and_id_with_get_put_remove():
     global book_id
     url = BASE_URL + "books/"
@@ -167,6 +166,14 @@ def test_books_post_invalid_data():
         "4": "genre",
     }
     assert r.json()["status"] == 400
+
+
+def test_url_get_request():
+    r = requests.get(BASE_URL)
+    assert r.status_code == 200
+    print(r.json())
+    assert "books" in r.json()
+    assert "authors" in r.json()
 
 
 if __name__ == "__main__":
