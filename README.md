@@ -6,7 +6,7 @@
 
 [![License: MIT](https://img.shields.io/github/license/yo1am1/bookstoreAPI)](https://github.com/yo1am1/bookstoreAPI/blob/main/LICENSE)
 [![GitHub last commit](https://img.shields.io/github/last-commit/yo1am1/bookstoreAPI)](https://github.com/yo1am1/bookstoreAPI/commits/main)
-[![codecov](https://codecov.io/gh/yo1am1/BookselfAPI/branch/main/graph/badge.svg?token=erUjdAbB6E)](https://codecov.io/gh/yo1am1/BookselfAPI)
+[![codecov](https://codecov.io/gh/yo1am1/BookselfAPI/branch/main/graph/badge.svg?token=erUjdAbB6E)](https://app.codecov.io/gh/yo1am1/BookselfAPI)
 ![Lint](https://github.com/yo1am1/bookstoreAPI/actions/workflows/black.yaml/badge.svg?event=push)
 ![Pytest](https://github.com/yo1am1/bookstoreAPI/actions/workflows/test.yml/badge.svg?event=push)
 ![GitHub Latest Pre-Release)](https://img.shields.io/github/v/release/yo1am1/bookstoreAPI?include_prereleases&label=pre-release&logo=github)
@@ -15,6 +15,8 @@
 
 [![Swagger Validator](https://validator.swagger.io/validator?url=https://raw.githubusercontent.com/yo1am1/bookstoreAPI/main/swagger.yml)](https://app.swaggerhub.com/apis-docs/BIGDIEBAM/book-shelf_social_experiment/3.1-beta.1)
 
+<a href="https://codecov.io/gh/yo1am1/bookselfAPI"> <img src="https://codecov.io/gh/yo1am1/BookselfAPI/branch/main/graphs/icicle.svg?token=erUjdAbB6E" alt="coverage"/> </a>
+    
 ## Table of Contents 📚:
 
 - [Introduction](#bookselfapi-v31-beta1-)
