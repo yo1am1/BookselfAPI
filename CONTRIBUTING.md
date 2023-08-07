@@ -1,8 +1,8 @@
-# Contributing to BookselfAPI
+# Contributing to BookselfAPI 📚
 
 Thank you for considering contributing to BookselfAPI! Your contributions help improve the project and benefit the community. Here are some ways you can contribute:
 
-## Code Contributions
+## Code Contributions 🥖
 
 1. Fork the repository on GitHub.
 2. Clone your forked repository to your local machine.
@@ -13,21 +13,21 @@ Thank you for considering contributing to BookselfAPI! Your contributions help i
 7. Push your changes to your forked repository.
 8. Submit a pull request to the main repository.
 
-## Bug Reports and Feature Requests
+## Bug Reports and Feature Requests 🐛
 
 If you encounter a bug or have a feature request, please:
 
 1. Check if the issue/request has already been reported on the [Issues](https://github.com/yo1am1/bookselfAPI/issues) page.
 2. If not, create a new issue with detailed information, including steps to reproduce (for bugs) or a clear description (for feature requests).
 
-## Documentation
+## Documentation 📑
 
 Help improve the project's documentation:
 
 - If you find any errors or unclear instructions, submit a pull request to update the documentation.
 - If you have suggestions for additional documentation, create a new issue or pull request.
 
-## Testing
+## Testing 🍌
 
 You can contribute to testing by:
 
@@ -35,7 +35,7 @@ You can contribute to testing by:
 - Running tests locally and reporting any failures.
 - Testing new features or bug fixes.
 
-## Community Engagement
+## Community Engagement 🗺️
 
 Engage with the community:
 
@@ -43,14 +43,14 @@ Engage with the community:
 - Help answer questions from other contributors and users.
 - Foster a positive and inclusive environment.
 
-## Code Reviews
+## Code Reviews 💞
 
 Participate in code reviews:
 
 - Review pull requests submitted by other contributors.
 - Provide constructive feedback and suggestions for improvements.
 
-## Translation
+## Translation 🖋️
 
 If you're interested in translating the project into different languages:
 
