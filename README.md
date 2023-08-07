@@ -10,7 +10,7 @@
 <!-- ![GitHub Latest Release)](https://img.shields.io/github/v/release/yo1am1/bookstore-api?logo=github)
 -->
 
-# BookstoreAPI v2.0-beta.1
+# BookselfAPI v3.1-beta.1
 
 <a href="https://codecov.io/gh/yo1am1/bookstore-api" >  <img src="https://codecov.io/gh/yo1am1/bookstore-api/branch/main/graphs/tree.svg?token=D8TONVLGHY" alt="coverage"/>  </a>
 
