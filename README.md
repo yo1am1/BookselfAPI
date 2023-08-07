@@ -14,12 +14,12 @@
 
 <a href="https://codecov.io/gh/yo1am1/bookstore-api" >  <img src="https://codecov.io/gh/yo1am1/bookstore-api/branch/main/graphs/tree.svg?token=D8TONVLGHY" alt="coverage"/>  </a>
 
-## [Documentation](https://app.swaggerhub.com/apis-docs/BIGDIEBAM/book-shelf_social_experiment/2.0.0)
+## [Documentation](https://app.swaggerhub.com/apis-docs/BIGDIEBAM/book-shelf_social_experiment/3.1-beta.1)
 
 > To use the documentation, click on Documentation link above.
 >
 > Although, you can find documentation
-> in [swagger.yml](https://github.com/yo1am1/bookstore-api/blob/homework_23/swagger.yml) file.
+> in [swagger.yml](https://github.com/yo1am1/bookstoreAPI/blob/main/swagger.yml) file.
 
 ### To download and use this repository.
 
