@@ -45,7 +45,7 @@ def test_user_registration(api_client):
         "password": "newpassword12345",
     }
     response = api_client.post(url, data)
-    print(response.content)
+
     assert response.status_code == status.HTTP_201_CREATED
 
 
@@ -85,7 +85,7 @@ def test_book_detail(api_client, book):
     assert response.status_code == status.HTTP_200_OK
 
 
-def test_authorization(api_client):
+def test_not_authorized_book(api_client):
     url = reverse("book_create")
     data = {
         "title": "Book Title",
