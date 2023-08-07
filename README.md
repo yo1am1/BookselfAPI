@@ -14,8 +14,6 @@
 [![Documentation](https://img.shields.io/badge/API%20Documentation-Explore%20Here-blue)](https://app.swaggerhub.com/apis-docs/BIGDIEBAM/book-shelf_social_experiment/3.1-beta.1)
 
 [![Swagger Validator](https://validator.swagger.io/validator?url=https://raw.githubusercontent.com/yo1am1/bookstoreAPI/main/swagger.yml)](https://app.swaggerhub.com/apis-docs/BIGDIEBAM/book-shelf_social_experiment/3.1-beta.1)
-
-<a href="https://codecov.io/gh/yo1am1/bookselfAPI"> <img src="https://codecov.io/gh/yo1am1/BookselfAPI/branch/main/graphs/icicle.svg?token=erUjdAbB6E" alt="coverage"/> </a>
     
 ## Table of Contents 📚:
 
