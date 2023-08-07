@@ -183,5 +183,11 @@ def test_het_author_by_id():
     assert r.json()[0]["fields"]["name"] == "F. Scott Fitzgerald"
 
 
+def test_het_author_by_name():
+    r = requests.get(BASE_URL + "authors/?name=F. Scott Fitzgerald")
+    assert r.status_code == 200
+    assert r.json()[0]["fields"]["name"] == "F. Scott Fitzgerald"
+
+
 if __name__ == "__main__":
     pytest.main([os.path.realpath(__file__)])
