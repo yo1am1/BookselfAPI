@@ -14,6 +14,15 @@
 
 Welcome to BookselfAPI, your digital bookshelf project. This repository contains the backend API for managing your book collection.
 
+## Table of Contents 📚:
+
+- [Introduction](#bookselfapi-v31-beta1-)
+- [Key Features](#key-features-)
+- [Installation and Usage](#installation-and-usage-)
+- [Contributing](#contributing-️)
+- [Security](#security-)
+- [License](#license-️)
+
 ## Key Features 🔑
 
 - [API Documentation](https://app.swaggerhub.com/apis-docs/BIGDIEBAM/book-shelf_social_experiment/3.1-beta.1): Explore the endpoints, methods, and functionalities provided by the API using Swagger.
