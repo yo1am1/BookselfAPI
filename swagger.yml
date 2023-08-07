@@ -1,9 +1,16 @@
 openapi: 3.0.3
 info:
-  title: Book Shelf API
+  title: BookselfAPI
   description: >
-    An API for bookstore. You can add, delete, and manage books, authors, order them through Monobank
-  version: 2.0.0
+    BookselfAPI is a Django REST Framework API to run a bookstore online. You can add, delete, and manage books wherever and whenever you want (with authorization). Although, you can order them through MonobankAPI's acquiring integration (payment is fake, so do not worry to try it). We use postgreSQL DB. 
+  version: 3.1-beta.1
+  license:
+    name: MIT License
+    url: https://github.com/yo1am1/bookstoreAPI/blob/main/LICENSE
+  contact:
+    name: API Creator
+    url: https://cryptic-river-21647-7efe93940f14.herokuapp.com/portfolio
+    email: bigdiebam@gmail.com
 servers:
   - url: https://cryptic-river-21647-7efe93940f14.herokuapp.com/api_v3/
   - url: http://127.0.0.1:8000/api_v3/
@@ -239,7 +246,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Author'
-  /authors/update/{id}/:
+  /authors/update/{authoriId}/:
     put:
       security:
         - bearerAuth: []
@@ -248,7 +255,7 @@ paths:
       summary: Update Author
       description: Update details of an author by their ID.
       parameters:
-        - name: id
+        - name: authoriId
           in: path
           description: ID of the author
           required: true
@@ -267,6 +274,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Author'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author_update_unauthorised'
         '404':
           description: Author not found
   /authors/delete/{id}:
@@ -305,10 +318,19 @@ paths:
       description: Place an order for one or more books.
       requestBody:
         required: true
-        content:
+        content:  
           application/json:
             schema:
               $ref:  '#/components/schemas/Order_creation'
+            examples:
+              "Buy a book":
+                value:
+                  order:
+                    [ { "book_id": 1, "amount": 1 } ]
+              "Buy two different books":
+                value:
+                  order:
+                    [ { "book_id": 1, "amount": 2 }, { "book_id": 4, "amount": 10 } ]              
       responses:
         '201':
           description: Order placed successfully
@@ -321,7 +343,7 @@ paths:
           content:
               application/json:
                 schema:
-                  $ref: '#/components/schemas/OrderCreationFailed'
+                  $ref: '#/components/schemas/OrderCreationFailed'   
   /orders/:
     get:
       tags:
@@ -334,8 +356,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrdersList'
-
+                $ref: '#/components/schemas/OrdersList'     
+        
   /users/register/:
     post:
       tags:
@@ -485,7 +507,14 @@ components:
         name:
           type: string
           example: J.R.R. Tolkien
-
+    
+    Author_update_unauthorised:
+      type: object
+      properties:
+        detail:
+          type: string
+          example: Authentication credentials were not provided.
+          
     Author_does_not_exist:
       type: object
       properties:
@@ -538,7 +567,7 @@ components:
         detail:
           type: string
           example: "JSON parse error - Expecting property name enclosed in double quotes: line ... column ... (char ...)"
-
+    
     OrdersList:
       type: object
       properties:
@@ -553,7 +582,7 @@ components:
           example: null
         results:
           type: array
-          items:
+          items: 
             type: object
             example:
               - title: M4A1-S
@@ -679,7 +708,7 @@ components:
         amount:
           type: integer
           example: 10000
-
+    
   securitySchemes:
     bearerAuth:
       type: http
