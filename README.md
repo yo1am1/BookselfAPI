@@ -41,9 +41,13 @@ Welcome to BookselfAPI, your digital bookshelf project. This repository contains
 
 6. Enjoy managing your digital bookshelf!
 
-## Contributing
+## Contributing 🗺️
 
 If you'd like to contribute to the project, please read the [Contributing Guidelines](CONTRIBUTING.md) for more information.
+
+## Security 👮
+
+For information on security practices and how to report vulnerabilities, please read our [Security Policy](SECURITY.md).
 
 ## License ⛓️
 
