@@ -5,8 +5,9 @@ import requests
 
 BASE_URL = "https://cryptic-river-21647-7efe93940f14.herokuapp.com/"
 
+book_id = None
 
-# @pytest.mark.xfail
+
 def test_post_and_id_with_get_put_remove():
     global book_id
     url = BASE_URL + "books/"
