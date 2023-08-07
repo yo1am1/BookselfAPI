@@ -1,4 +1,4 @@
-# BookselfAPI v3.1-beta.1
+# BookselfAPI v3.1-beta.1 📖
 
 [![Python](https://img.shields.io/badge/Python-14354C?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org)
 [![Heroku](https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white)](https://cryptic-river-21647-7efe93940f14.herokuapp.com/api_v3)
@@ -14,11 +14,11 @@
 
 Welcome to BookselfAPI, your digital bookshelf project. This repository contains the backend API for managing your book collection.
 
-## Key Features
+## Key Features 🔑
 
 - [API Documentation](https://app.swaggerhub.com/apis-docs/BIGDIEBAM/book-shelf_social_experiment/3.1-beta.1): Explore the endpoints, methods, and functionalities provided by the API using Swagger.
 
-## Installation and Usage
+## Installation and Usage 🧠
 
 1. Clone the repository:
     ```bash
@@ -45,7 +45,7 @@ Welcome to BookselfAPI, your digital bookshelf project. This repository contains
 
 If you'd like to contribute to the project, please read the [Contributing Guidelines](CONTRIBUTING.md) for more information.
 
-## License
+## License ⛓️
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
