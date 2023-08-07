@@ -13,7 +13,7 @@
 
 [![Documentation](https://img.shields.io/badge/API%20Documentation-Explore%20Here-blue)](https://app.swaggerhub.com/apis-docs/BIGDIEBAM/book-shelf_social_experiment/3.1-beta.1)
 
-![Swagger Validator](https://validator.swagger.io/validator?url=https://raw.githubusercontent.com/yo1am1/bookstoreAPI/main/swagger.yml)
+[![Swagger Validator](https://validator.swagger.io/validator?url=https://raw.githubusercontent.com/yo1am1/bookstoreAPI/main/swagger.yml)](https://app.swaggerhub.com/apis-docs/BIGDIEBAM/book-shelf_social_experiment/3.1-beta.1)
 
 ## Table of Contents 📚:
 
