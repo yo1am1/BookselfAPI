@@ -1,60 +1,45 @@
 openapi: 3.0.3
 info:
-  title: Book Shelf - social experiment
+  title: BookselfAPI
   description: >
-    This is an API for a book shelf. You can add whatever books you like.
-    There is only one rule: do not add books that are not real.
-    It is a social experiment to see if people will voluntarily obey the rules
-    to create a better community.
-  version: 2.0.0
+    BookselfAPI is a Django REST Framework API to run a bookstore online. You can add, delete, and manage books wherever and whenever you want (with authorization). Although, you can order them through MonobankAPI's acquiring integration (payment is fake, so do not worry to try it). We use postgreSQL DB. 
+  version: 3.1-beta.1
+  license:
+    name: MIT License
+    url: https://github.com/yo1am1/bookstoreAPI/blob/main/LICENSE
+  contact:
+    name: API Creator
+    url: https://cryptic-river-21647-7efe93940f14.herokuapp.com/portfolio
+    email: bigdiebam@gmail.com
 servers:
-  - url: https://boiling-dusk-49835-df388a71925c.herokuapp.com/api_v3/
-  - url: http://127.0.0.1:8000/
+  - url: https://cryptic-river-21647-7efe93940f14.herokuapp.com/api_v3/
+  - url: http://127.0.0.1:8000/api_v3/
 tags:
   - name: books
-    description: 'Books interactions'
+    description: Book-related interactions
   - name: authors
-    description: 'Interactions with authors'
+    description: Author interactions
   - name: orders
-    description: 'User orders'
+    description: User order management
   - name: users
-    description: 'User interaction'
+    description: User interactions
 paths:
   /books/:
     get:
       tags:
         - books
-      summary: Retrieve all books
-      description: Returns books list
+      summary: Retrieve Books
+      description: Get a list of books with optional filters.
       operationId: getBooks
       parameters:
-        - name: title
+        - name: search
           in: query
-          description: books name
-          required: false
-          schema:
-            type: string
-        - name: genre
-          in: query
-          description: books genre
-          required: false
-          schema:
-            type: string
-        - name: author
-          in: query
-          description: books author
-          required: false
-          schema:
-            type: string
-        - name: publish_year
-          in: query
-          description: publish year of the books
-          required: false
+          description: Search by title and by id
           schema:
             type: string
       responses:
         '200':
-          description: Successful operation
+          description: Successful response
           content:
             application/json:
               schema:
@@ -62,24 +47,22 @@ paths:
                 items:
                   $ref: '#/components/schemas/Book'
         '404':
-          description: Not found
+          description: No books found
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Book_does_not_found'
+                $ref: '#/components/schemas/Book_does_not_found'
   /books/create/:
     post:
       security:
         - bearerAuth: []
       tags:
         - books
-      summary: Add a new book and author to the store
-      description: Add a new book to the store
+      summary: Add New Book
+      description: Add a new book and author to the shelf.
       operationId: addBook
       requestBody:
-        description: Create a new book in the store
+        description: New book details
         content:
           application/json:
             schema:
@@ -87,7 +70,7 @@ paths:
         required: true
       responses:
         '201':
-          description: Successful operation
+          description: Book added successfully
           content:
             application/json:
               schema:
@@ -102,45 +85,45 @@ paths:
     get:
       tags:
         - books
-      summary: Find book by ID
-      description: Returns a single book
+      summary: Get Book by ID
+      description: Retrieve a single book by its ID.
       operationId: getBookById
       parameters:
         - name: bookId
           in: path
-          description: ID of book to return
+          description: ID of the book
           required: true
           schema:
             type: integer
             format: int64
       responses:
         '200':
-          description: successful operation
+          description: Successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Book'
         '404':
-          description: Not Found
+          description: Book not found
   /books/update/{bookId}/:
     put:
       security:
         - bearerAuth: []
       tags:
         - books
-      summary: Update book by ID
-      description: Update book in the store
+      summary: Update Book by ID
+      description: Update details of a book by its ID.
       operationId: updateBook
       parameters:
         - name: bookId
           in: path
-          description: ID of book to put
+          description: ID of the book
           required: true
           schema:
             type: integer
             format: int64
       requestBody:
-        description: Update book in the store
+        description: Updated book details
         content:
           application/json:
             schema:
@@ -148,39 +131,39 @@ paths:
         required: true
       responses:
         '200':
-          description: Successful operation
+          description: Book updated successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Book_after_update'
         '404':
-          description: Not found
+          description: Book not found
   /books/delete/{bookId}/:
     delete:
       security:
         - bearerAuth: []
       tags:
         - books
-      summary: Delete book by ID
-      description: Delete book from the store
+      summary: Delete Book by ID
+      description: Delete a book by its ID.
       operationId: deleteBook
       parameters:
         - name: bookId
           in: path
-          description: ID of book to delete
+          description: ID of the book
           required: true
           schema:
             type: integer
             format: int64
       responses:
         '204':
-          description: Successful operation
+          description: Book deleted successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Book_after_delete'
         '400':
-          description: Does not exist
+          description: Book does not exist
           content:
             application/json:
               schema:
@@ -189,19 +172,18 @@ paths:
     get:
       tags:
         - authors
-      summary: Show all authors in the store with optional filters
-      description: Returns authors list
+      summary: List Authors
+      description: Retrieve a list of authors with optional filters.
       operationId: getAuthors
       parameters:
-        - name: name
+        - name: search
           in: query
-          description: name
-          required: false
+          description: Search by author's name and id
           schema:
             type: string
       responses:
         '200':
-          description: successful operation
+          description: Successful response
           content:
             application/json:
               schema:
@@ -209,7 +191,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/Author'
         '404':
-          description: Bad request
+          description: Authors not found
           content:
             application/json:
               schema:
@@ -220,25 +202,25 @@ paths:
     get:
       tags:
         - authors
-      summary: Find author by ID
-      description: Returns a single author
+      summary: Get Author by ID
+      description: Retrieve a single author by their ID.
       parameters:
         - name: authorId
           in: path
-          description: ID of author to return
+          description: ID of the author
           required: true
           schema:
             type: integer
             format: int64
       responses:
         '200':
-          description: successful operation
+          description: Successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Author'
         '404':
-          description: Not Found
+          description: Author not found
           content:
             application/json:
               schema:
@@ -249,8 +231,8 @@ paths:
         - bearerAuth: []
       tags:
         - authors
-      summary: Add new author
-      description: Add new author to the library
+      summary: Add New Author
+      description: Add a new author to the shelf.
       requestBody:
         required: true
         content:
@@ -259,23 +241,23 @@ paths:
               $ref: '#/components/schemas/AuthorInput'
       responses:
         '201':
-          description: Success
+          description: Author added successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Author'
-  /authors/update/{id}/:
+  /authors/update/{authoriId}/:
     put:
       security:
         - bearerAuth: []
       tags:
         - authors
-      summary: Update the author
-      description: Update the existent author by id
+      summary: Update Author
+      description: Update details of an author by their ID.
       parameters:
-        - name: id
+        - name: authoriId
           in: path
-          description: Author id
+          description: ID of the author
           required: true
           schema:
             type: integer
@@ -287,37 +269,43 @@ paths:
               $ref: '#/components/schemas/AuthorInput'
       responses:
         '200':
-          description: Success
+          description: Author updated successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Author'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author_update_unauthorised'
         '404':
-          description: Not found
+          description: Author not found
   /authors/delete/{id}:
     delete:
       security:
         - bearerAuth: []
       tags:
         - authors
-      summary: Author delete
-      description: Delete the existent author using id
+      summary: Delete Author
+      description: Delete an author by their ID.
       parameters:
         - name: id
           in: path
-          description: Author id
+          description: ID of the author
           required: true
           schema:
               type: integer
       responses:
         '204':
-          description: Success
+          description: Author deleted successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Author'
         '404':
-          description: Not Found
+          description: Author not found
           content:
             application/json:
               schema:
@@ -326,33 +314,56 @@ paths:
     post:
       tags:
         - orders
-      summary: Order the new book
-      description: ordering the book
+      summary: Order New Book
+      description: Place an order for one or more books.
       requestBody:
         required: true
         content:  
           application/json:
             schema:
               $ref:  '#/components/schemas/Order_creation'
+            examples:
+              "Buy a book":
+                value:
+                  order:
+                    [ { "book_id": 1, "amount": 1 } ]
+              "Buy two different books":
+                value:
+                  order:
+                    [ { "book_id": 1, "amount": 2 }, { "book_id": 4, "amount": 10 } ]              
       responses:
         '201':
-          description: Success
+          description: Order placed successfully
           content:
               application/json:
                 schema:
                   $ref: '#/components/schemas/MonoAnswer'
         '400':
-          description: Failed
+          description: Order creation failed
           content:
               application/json:
                 schema:
-                  $ref: '#/components/schemas/OrderCreationFailed'         
+                  $ref: '#/components/schemas/OrderCreationFailed'   
+  /orders/:
+    get:
+      tags:
+        - orders
+      summary: List of orders
+      description: Get the list of orders on this platform
+      responses:
+        '200':
+          description: Get request succeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrdersList'     
+        
   /users/register/:
     post:
       tags:
         - users
-      summary: User registration
-      description: New user registration form
+      summary: User Registration
+      description: Register a new user.
       requestBody:
         required: true
         content:
@@ -361,13 +372,13 @@ paths:
               $ref: '#/components/schemas/UserRegistration'
       responses:
         '201':
-          description: Success
+          description: User registered successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
         '400':
-          description: Something went wrong
+          description: User creation failed
           content:
             application/json:
               schema:
@@ -376,8 +387,8 @@ paths:
     post:
       tags:
         - users
-      summary: User login
-      description: User login form
+      summary: User Login
+      description: Log in a user.
       requestBody:
         required: true
         content:
@@ -386,7 +397,7 @@ paths:
               $ref: '#/components/schemas/UserLogin'
       responses:
         '200':
-          description: Success
+          description: Login successful
           content:
             application/json:
               schema:
@@ -398,7 +409,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/User_login_error_form'
         '401':
-          description: Failed
+          description: Unauthorized
           content:
             application/json:
               schema:
@@ -409,34 +420,10 @@ components:
     Book:
       type: object
       properties:
-        model:
-          type: string
-          example: book_shelf.book
-        pk:
+        id:
           type: integer
           format: int64
           example: 3
-        fields:
-          type: object
-          properties:
-            title:
-              type: string
-              example: The Lord of the Rings
-            publish_year:
-              type: integer
-              description: The year the book was published
-              example: 1954
-            author:
-              type: integer
-              description: The author of the book
-              example: 1
-            genre:
-              type: string
-              description: The genre of the book
-              example: Fantasy
-    Book_created:
-      type: object
-      properties:
         title:
           type: string
           example: The Lord of the Rings
@@ -449,6 +436,235 @@ components:
         genre:
           type: string
           example: Fantasy
+        price:
+          type: integer
+          example: 11111
+        amount:
+          type: integer
+          example: 10
+
+    Book_created:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 7
+        title:
+          type: string
+          example: The Lord of the Rings
+        publish_year:
+          type: integer
+          example: 1954
+        author:
+          type: integer
+          example: 1
+        genre:
+          type: string
+          example: Fantasy
+
+    Book_does_not_found:
+      type: object
+      properties:
+        message:
+          type: string
+          example: No books found
+
+    Book_exists:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Book already exists
+
+    Book_after_update:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Book updated successfully
+
+    Book_after_delete:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Book deleted successfully
+
+    Book_does_not_exist_delete:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Book does not exist
+
+    Author:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        name:
+          type: string
+          example: J.R.R. Tolkien
+    
+    Author_update_unauthorised:
+      type: object
+      properties:
+        detail:
+          type: string
+          example: Authentication credentials were not provided.
+          
+    Author_does_not_exist:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Author not found
+
+    AuthorInput:
+      type: object
+      properties:
+        name:
+          type: string
+          example: J.K. Rowling
+    Order_creation:
+      type: object
+      properties:
+        order:
+          type: array
+          items:
+            type: object
+            properties:
+              book_id:
+                type: integer
+                example: 2
+              amount:
+                type: integer
+                example: 1
+            required:
+              - book_id
+              - amount
+          example:
+            - book_id: 2
+              amount: 1
+            - book_id: 3
+              amount: 12
+
+    MonoAnswer:
+      type: object
+      properties:
+        url:
+          type: string
+          example: https://pay.mbnk.biz/230806AHZonZQnpXi7EX?orderId=23080662FNZjxVH8jZRj
+        id:
+          type: integer
+          example: 7
+
+    OrderCreationFailed:
+      type: object
+      properties:
+        detail:
+          type: string
+          example: "JSON parse error - Expecting property name enclosed in double quotes: line ... column ... (char ...)"
+    
+    OrdersList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 2
+        next:
+          type: string
+          example: https://test.com/api_v3/books/?limit=5
+        previous:
+          type: string
+          example: null
+        results:
+          type: array
+          items: 
+            type: object
+            example:
+              - title: M4A1-S
+                genre: "Drama"
+                author: 1
+                price: 42000
+                amount: 498
+                id: 1
+                publish_year: 2015
+              - title: "Sunday"
+                genre: "Biography"
+                author: 2
+                price: 100
+                amount: 8000000
+                id: 2
+                publish_year: 2023
+    UserRegistration:
+      type: object
+      properties:
+        username:
+          type: string
+          example: user123
+        email:
+          type: string
+          example: b@test.com
+        password:
+          type: string
+          example: mysecretpassword244685
+
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+          example: user123
+        email:
+          type: string
+          example: b@test.com
+
+    User_creation_error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: User creation failed
+
+    UserLogin:
+      type: object
+      properties:
+        username:
+          type: string
+          example: user123
+        password:
+          type: string
+          example: mysecretpassword244685
+
+    User_login_successful:
+      type: object
+      properties:
+        refresh:
+          type: string
+          example: your_refresh_token
+        access:
+          type: string
+          example: your_access_token
+        email:
+          type: string
+          example: b@test.com
+
+    User_login_error_form:
+      type: object
+      properties:
+        detail:
+          type: string
+          example: "JSON parse error - Expecting property name enclosed in double quotes: line 3 column 40 (char 66)"
+
+    User_login_error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "No active account found with the given credentials"
     Book_post_request_body:
       type: object
       properties:
@@ -464,207 +680,35 @@ components:
         publish_year:
           type: string
           example: 1892
-    Book_exists:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Book already exists
-        status:
+        price:
           type: integer
-          example: 400
-    Book_does_not_found:
-      type: object
-      properties:
-        message:
-          type: string
-          example: No books found
-        status:
+          example: 25000
+        amount:
           type: integer
-          example: 404
+          example: 10000
+
     Book_put_request_body:
       type: object
       properties:
         title:
           type: string
-          example: Update name
-        author:
-          type: string
-          example: Arthur Conan Doyle
-        genre:
-          type: string
-          example: Update genre
-        publish_year:
-          type: string
-          example: 1892
-    Book_after_update:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 4
-        title:
-          type: string
-          example: Update name
-        publish_year:
-          type: integer
-          example: 1892
+          example: Updated Title
         author:
           type: integer
-          example: 1
+          example: 2
         genre:
           type: string
-          example: Update genre
-    Book_after_delete:
-      type: object
-    Book_does_not_exist_delete:
-      type: object
-      properties:
-        Error:
-          type: string
-          example: Book does not exist
-        status:
+          example: Mystery
+        publish_year:
           type: integer
-          example: 400
-    Author:
-      type: object
-      properties:
-        id:
+          example: 2023
+        price:
           type: integer
-          format: int64
-          example: 10
-        name:
-          type: string
-          example: John 2... Still trying...
-    AuthorInput:
-      type: object
-      properties:
-        name:
-          type: string
-          example: Artur Conan Doyle
-    Author_does_not_exist:
-      type: object
-      properties:
-        Error:
-          type: string
-          example: Author does not exist
-        status:
+          example: 25000
+        amount:
           type: integer
-          example: 404
-    UserRegistration:
-      type: object
-      properties:
-        username:
-          type: string
-          example: test_username
-        email:
-          type: string
-          example: example@gmail.com
-        password:
-          type: string
-          example: Example244685071204
-    User:
-      type: object
-      properties:
-        username:
-          type: string
-          example: test3
-        email:
-          type: string
-          example: test3@test.com
-
-    User_creation_error:
-      type: object
-      properties:
-        username:
-          type: string
-          example: A user with that username already exists.
-        email:
-          type: string
-          example: Email already exists
-        password:
-          type: array
-          items:
-            type: string
-            example: ['This password is too short. It must contain at least 8 characters.', 'This password is too common.', 'This password is entirely numeric.']
-    UserLogin:
-      type: object
-      properties:
-        username:
-          type: string
-          example: test_username
-        password:
-          type: string
-          example: Example244685071204
-    User_login_successful:
-      type: object
-      properties:
-        refresh:
-          type: string
-          example: your refresh token
-        access:
-         type: string
-         example: your access token
-        email:
-          type: string
-          example: example@gmail.com
-    User_login_error:
-      type: object
-      properties:
-       detail:
-        type: string
-        example: No active account found with the given credentials
-    User_login_error_form:
-      type: object
-      properties:
-        username:
-          type: string
-          example: [
-        "This field may not be blank."
-    ]
-        password:
-          type: string
-          example: [
-        "This field may not be blank."
-        ]
+          example: 10000
     
-    Order_creation:
-      type: object
-      properties:
-        order:
-          type: array
-          items:
-            type: object
-            properties:
-              book_id:
-                type: integer
-                example: 2
-              quantity:
-                type: integer
-                example: 1
-            required:
-              - book_id
-              - quantity
-          example:
-            - book_id: 2
-              quantity: 1
-            - book_id: 3
-              quantity: 12
-    OrderCreationFailed:
-      type: object
-      properties:
-        detail:
-          type: string
-          example: "JSON parse error - Expecting property name enclosed in double quotes: line ... column ... (char ...)"
-    MonoAnswer:
-      type: object
-      properties:
-        url:
-          type: string
-          example: https://pay.mbnk.biz/654321123456rRk4H2hXxoJiv
-        id:
-          type: integer
-          example: 17
   securitySchemes:
     bearerAuth:
       type: http
