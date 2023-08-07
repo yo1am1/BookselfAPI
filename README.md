@@ -31,6 +31,8 @@ Welcome to BookselfAPI, your digital bookshelf project. This repository contains
 ## Key Features 🔑
 
 - [API Documentation](https://app.swaggerhub.com/apis-docs/BIGDIEBAM/book-shelf_social_experiment/3.1-beta.1): Explore the endpoints, methods, and functionalities provided by the API using Swagger.
+> Although, you can find documentation
+> in [swagger.yml](https://github.com/yo1am1/bookstore-api/blob/bookselfAPI/swagger.yml) file.
 
 ## Installation and Usage 🧠
 
