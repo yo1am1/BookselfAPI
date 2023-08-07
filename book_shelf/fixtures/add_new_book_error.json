@@ -1,0 +1,10 @@
+{
+  "message": "Missing data field. Please, check your input",
+  "fields": {
+    "1": "title",
+    "2": "publish_year",
+    "3": "author",
+    "4": "genre"
+  },
+  "status": 400
+}

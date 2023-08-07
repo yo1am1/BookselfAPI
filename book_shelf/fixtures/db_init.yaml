@@ -1,0 +1,33 @@
+- model: shelf.author
+  pk: 1
+  fields:
+    name: Vladimir Nabokov
+- model: shelf.author
+  pk: 2
+  fields:
+    name: Mikhail Bulgakov
+- model: shelf.author
+  pk: 3
+  fields:
+    name: Fyodor Dostoevsky
+- model: shelf.book
+  pk: 1
+  fields:
+    title: book1
+    author: Vladimir Nabokov
+    genre: comedy
+    publication_year: 1990
+- model: shelf.book
+  pk: 2
+  fields:
+    title: book2
+    author: Mikhail Bulgakov
+    genre: tragedy
+    publication_year: 1950
+- model: shelf.book
+  pk: 3
+  fields:
+    title: book3
+    author: Fyodor Dostoevsky
+    genre: romance
+    publication_year: 1940

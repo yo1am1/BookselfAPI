@@ -1,0 +1,11 @@
+{
+  "books": {
+    "list": "/api/books/",
+    "filter": "/api/books/filter/ and insert json in postman",
+    "detail": "/api/books/<int:book_id>"
+  },
+  "authors": {
+    "list": "/api/authors/",
+    "detail": "/api/authors/<int:author_id>"
+  }
+}

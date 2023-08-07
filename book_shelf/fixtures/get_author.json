@@ -1,0 +1,9 @@
+[
+  {
+    "fields": {
+      "name": "Someone Importent"
+    },
+    "model": "book_shelf.author",
+    "pk": 2
+  }
+]

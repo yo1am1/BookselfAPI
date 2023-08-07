@@ -1,0 +1,30 @@
+services:
+  django-migrations:
+    restart: on-failure
+    depends_on:
+      - db
+    build: .
+    command: python manage.py migrate
+
+  django:
+    restart: always
+    depends_on:
+      - django-migrations
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+
+  db:
+    image: "postgres"
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+
+  redis:
+    restart: always
+    image: "redis"
+    expose:
+      - "6379"

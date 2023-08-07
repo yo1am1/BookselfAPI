@@ -1,0 +1,32 @@
+[
+  {
+    "fields": {
+      "author": "(<Author: Dante Alighieri>, True)",
+      "genre": "comedy",
+      "publish_year": 20235,
+      "title": "Not a Divine comedy"
+    },
+    "model": "shelf.book",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "author": "(<Author: Dante Alighieri Jr>, False)",
+      "genre": "tragedy",
+      "publish_year": 531441,
+      "title": "Not a Divine comedy 2"
+    },
+    "model": "shelf.book",
+    "pk": 4
+  },
+  {
+    "fields": {
+      "author": "Me",
+      "genre": "comedy? tragedy...",
+      "publish_year": 2023,
+      "title": "Foo"
+    },
+    "model": "shelf.book",
+    "pk": 1
+  }
+]
