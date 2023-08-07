@@ -9,7 +9,7 @@ from rest_framework.test import APIClient
 from rest_framework_simplejwt.tokens import AccessToken
 
 from apiv3.models import Author, Book
-from apiv3.serializers import BookSerializer
+from apiv3.serializers import BookSerializer, UserRegistrationSerializer
 
 
 @pytest.fixture
@@ -237,6 +237,29 @@ def test_book_list_view():
 
     assert response.status_code == status.HTTP_200_OK
     assert len(response.data) == 4
+
+
+@pytest.mark.django_db
+def test_serializer_registration():
+    serializer = UserRegistrationSerializer(
+        data={
+            "username": "testusername2",
+            "email": "test@test.com",
+            "password": "test244685",
+        }
+    )
+
+    assert UserRegistrationSerializer.validate_email(serializer, "test@test.com")
+    assert UserRegistrationSerializer.validate_username(serializer, "testusername2")
+    assert UserRegistrationSerializer.validate_password(serializer, "test244685")
+
+    assert serializer.is_valid(), serializer.errors
+
+    user = serializer.save()
+
+    assert user.username == "testusername2"
+    assert user.email == "test@test.com"
+    assert user.check_password("test244685")
 
 
 if __name__ == "__main__":
