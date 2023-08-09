@@ -24,6 +24,7 @@ from apiv3.serializers import (
     OrderSerializer,
     MonoCallbackSerializer,
 )
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 class UrlsDetail(APIView):
@@ -134,9 +135,14 @@ class BookList(generics.ListAPIView):
     permission_classes = [permissions.AllowAny]
     pagination_class = LimitOffsetPagination
 
-    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    filter_backends = [
+        filters.SearchFilter,
+        DjangoFilterBackend,
+        filters.OrderingFilter,
+    ]
     search_fields = ["title"]
     ordering_fields = ["id", "price", "amount", "publish_year"]
+    filterset_fields = ["publish_year"]
 
 
 class BookDetail(generics.RetrieveAPIView):
