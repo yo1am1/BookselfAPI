@@ -97,7 +97,7 @@ class AuthorList(generics.ListAPIView):
     pagination_class = LimitOffsetPagination
 
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
-    search_fields = ["name", "id"]
+    search_fields = ["name"]
     ordering_fields = ["id", "name"]
 
 
@@ -135,7 +135,7 @@ class BookList(generics.ListAPIView):
     pagination_class = LimitOffsetPagination
 
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
-    search_fields = ["title", "id"]
+    search_fields = ["title"]
     ordering_fields = ["id", "price", "amount", "publish_year"]
 
 
