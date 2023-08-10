@@ -54,8 +54,14 @@ Welcome to BookselfAPI, your digital bookshelf project. This repository contains
     ```bash
     python manage.py runserver
     ```
+    
+    > [!IMPORTANT]\
+    > You can specify port at the end of this command, if you do not want to use default port
 
 5. Access the API at [http://127.0.0.1:8000/](http://127.0.0.1:8000/).
+
+> [!NOTE]\
+> Or with the port you specified before.
 
 6. Enjoy managing your digital bookshelf!
 
