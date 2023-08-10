@@ -61,7 +61,7 @@ Welcome to BookselfAPI, your digital bookshelf project. This repository contains
 5. Access the API at [http://127.0.0.1:8000/](http://127.0.0.1:8000/).
 
     > [!NOTE]\
-    > Or with the port you specified before.
+    > Or at the port you specified before. For example: [http://127.0.0.1:3000/](http://127.0.0.1:3000/)
 
 6. Enjoy managing your digital bookshelf!
 
